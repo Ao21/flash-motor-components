@@ -1,0 +1,14 @@
+//-------------------------------------
+// #MIXINS-SIZING
+//-------------------------------------
+
+///
+/// Helper to size an element
+/// @author Hugo Giraudel
+/// @param {Length} $width
+/// @param {Length} $height
+///
+@mixin sizing($width, $height: $width) {
+  height: $height;
+  width: $width;
+}

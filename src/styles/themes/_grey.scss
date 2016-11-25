@@ -1,0 +1,24 @@
+//-------------------------------------
+// #THEMES-GREY
+//-------------------------------------
+
+.t-grey {
+  background-color: palette(med-light-grey);
+  color: palette(dark);
+
+  .c-button {
+    &--outline {
+      border-color: palette(dark);
+      color: palette(dark);
+    }
+  }
+
+  [class*="__header"] {
+    background-color: palette(med-dark-grey);
+    color: palette(dark);
+  }
+
+  h1,h2,h3,h4,h5,h6,
+  [class*="__title"],
+  [class*="__subtitle"] { color: palette(dark); }
+}

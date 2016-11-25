@@ -1,0 +1,48 @@
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/objects/flex";
+@import "./../../../../styles/settings/globals";
+@import './../../../../styles/tools/functions';
+:host{
+	float: left;
+	width: 100%;
+}
+
+:host,
+.df-dropdown {
+	&.ng-valid &__trigger{
+		border-color: $color-primary;
+	}
+	&__trigger {
+		display: flex;
+		padding: 0 size(small);
+		justify-content: flex-start;
+		align-items: center;
+		height: 48px;
+		min-width: 100%;
+		cursor: pointer;
+		border: 1px solid $color-med-dark-grey;
+		color: $color-med-dark-grey;
+		border-radius: 2px;
+	}
+	&__value, &__placeholder{
+		flex: 1 1 auto;
+	}
+	&__value {
+		color: $color-dark;
+	}
+	&__arrow{
+		flex: 0 0 16px;
+		position: relative;
+	}
+}
+
+.mf-select-panel {
+	min-width: calc(100%);
+	overflow: auto;
+	padding-top: 0;
+	padding-bottom: 0;
+	transform-origin: top;
+	box-shadow: 0px 0px 2px #dddddd;
+	max-height: calc(48px * 5);
+
+}

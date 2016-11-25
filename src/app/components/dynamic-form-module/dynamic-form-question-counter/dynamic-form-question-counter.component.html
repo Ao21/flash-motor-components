@@ -1,0 +1,19 @@
+<button 
+	[autofocus]="autofocus" 
+	[disabled]="disabled"
+	aria-label="Increase the counter by one" 
+	[class.is-disabled]="isAtMin"
+	(blur)="onBlur()"
+	class="df-question-counter__minus c-button c-button--green c-button--minus" 
+	(click)="decrease()">-</button>
+<div 
+	[attr.aria-valuenow]="value" 
+	aria-label="Current Counter Value" 
+	class="df-question-counter__counter">{{value}}</div>
+<button 
+	aria-label="Decrease the counter by one" 
+	[class.is-disabled]="isAtMax"
+	[disabled]="disabled"
+	(blur)="onBlur()"
+	class="df-question-counter__plus c-button c-button--green c-button--plus" 
+	(click)="increase()">+</button>

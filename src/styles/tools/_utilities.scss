@@ -1,0 +1,33 @@
+//-------------------------------------
+// #MIXINS-UTILITIES
+//-------------------------------------
+
+@mixin clearfix($extend: false) {
+  @if $extend == extend {
+    @extend %u-clearfix;
+  } @else {
+    &::before,
+    &::after {
+      content: " ";
+      display: table;
+    }
+
+    &::after {
+      clear: both;
+    }
+  }
+}
+
+
+
+
+
+@mixin text-hidden($extend: false) {
+  @if $extend == extend {
+    @extend %u-hide-text;
+  } @else {
+    font: 0 / 0 a;
+    color: transparent;
+    text-shadow: none;
+  }
+}

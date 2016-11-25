@@ -1,0 +1,83 @@
+@import "./../../../../styles/settings/globals";
+@import './../../../../styles/tools/functions';
+@import "./../../../../styles/settings/colours";
+
+$defaultItemWidth: 48px;
+$defaultItemHeight: 48px;
+$defaultItemMargin: 0;
+$defaultHalfSize: ($defaultItemWidth + $defaultItemMargin) / 2;
+$defaultHalfMargin: $defaultItemMargin / 2;
+
+:host,
+.df-slider {
+	float: left;
+	width: 100%;
+	&__outer-container {
+		display: flex;
+		flex-flow: row;
+		flex-wrap: nowrap;
+		float: left;
+		width: 100%;
+	}
+	&__inner-container {
+		flex: 1 1 auto;
+		position: relative;
+		width: 100%;
+		float: left;
+		overflow: hidden;
+	}
+	&__highlight {
+		width: $defaultItemWidth;
+		position: absolute;
+		border: 2px solid #95989A;
+		border-radius: 2px;
+		height: 100%;
+		left: calc(50%);
+		top: 0;
+		transform: translateX(-50%);
+		z-index: -1;
+	}
+	&__items {
+		margin-left: calc(50% - #{$defaultHalfSize});
+		position: absolute;
+		float: left;
+		display: flex;
+		flex: 1 1 auto;
+		flex-flow: row;
+		flex-wrap: nowrap;
+		transform-origin: left top;
+		transition: 0.1s all;
+	}
+	&__item {
+		width: $defaultItemWidth;
+		height: $defaultItemHeight;
+		margin-left: $defaultItemMargin;
+		flex: 1 1 auto;
+		line-height: $defaultItemWidth;
+		text-align: center;
+		
+	}
+	&__control {
+		position: relative;
+		width: $defaultItemWidth;
+		height: $defaultItemHeight;
+		flex: 0 0 $defaultItemWidth;
+		display: flex;
+		justify-content: center;
+		img {
+			flex: 1 1 auto;
+			height: 16px;
+			align-self: center;
+		}
+	}
+}
+
+df-slider-item {
+	width: $defaultItemWidth;
+	height: $defaultItemHeight;
+	margin-left: $defaultItemMargin;
+	flex: 1 1 auto;
+	line-height: $defaultItemWidth;
+	text-align: center;
+
+}

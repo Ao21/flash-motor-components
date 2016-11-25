@@ -1,0 +1,15 @@
+.c-section {
+	&__content {
+		margin-left: 48px;
+		padding: 0 size(medium);
+		margin-bottom: size(medium);
+	}
+}
+
+mf-details-page,
+mf-pre-page {
+	& > h6:first-child {
+		margin-bottom: size(1.5);
+		font-weight: bold;
+	}
+}

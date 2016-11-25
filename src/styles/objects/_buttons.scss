@@ -1,0 +1,26 @@
+//-------------------------------------
+// #OBJECTS-BUTTONS
+//-------------------------------------
+
+@mixin o-button($extend: false) {
+  @if $extend == extend {
+    @extend %o-button;
+  } @else {
+    @include font-size(tiny);
+    @include font-weight(bold);
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    text-align: center;
+    text-transform: uppercase;
+    padding: size(tiny) size(medium);
+    text-decoration: none !important;
+    white-space: nowrap;
+    border: none;
+
+    & + & { margin-left: size(small); }
+  }
+}
+
+%o-button,
+.o-button { @include o-button; }

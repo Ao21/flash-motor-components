@@ -1,0 +1,11 @@
+//-------------------------------------
+// #ELEMENTS-LABLE
+//-------------------------------------
+
+label {
+	@include font-size(tiny, true);
+	@include font-weight(bold);
+	margin-bottom: size(tiny);
+	float: left;
+	width: 100%;
+}

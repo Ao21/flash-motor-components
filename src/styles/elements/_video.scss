@@ -1,0 +1,10 @@
+//-------------------------------------
+// #ELEMENT-VIDEO
+//-------------------------------------
+
+video,
+iframe {
+  height: auto;
+
+  @include mq(small) { min-height: 50vh; }
+}

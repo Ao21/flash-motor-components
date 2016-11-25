@@ -1,0 +1,101 @@
+<df-timeline-item *ngIf="question.timeline && !hidden" [status]="control.status" [pristine]="control.pristine"></df-timeline-item>
+<div class="df-question-container" *ngIf="!hidden" [formGroup]="form">
+  <label [attr.for]="question.key">{{question.label}}</label>
+    <input 
+      #input
+      *ngIf="question.controlType === 'textbox'" 
+      class="df-question__input-text df-question"
+      [inputIcon]="control"
+      [formControlName]="question.key" 
+      [attr.aria-label]="question.label"
+      [attr.aria-labelledby]="question.key"
+      [attr.aria-disabled]="control.disabled"
+      [attr.aria-required]="question.required"
+      [attr.aria-invalid]="ariaInvalid"
+      [attr.autocapitalize]="question.autocapitalize"
+      [attr.autocomplete]="question.autocomplete"
+      [attr.autocorrect]="question.autocorrect"
+      [placeholder]="question.placeholder"
+      [id]="question.key" 
+      [type]="question.type">
+    <df-counter
+      #input
+      *ngIf="question.controlType === 'counter'" 
+      class="df-question"
+      [formControl]="control"
+      [isDisabled]="control.disabled"
+      [attr.aria-label]="question.label"
+      [attr.aria-labelledby]="question.key"
+      [min]="question.min"
+      [max]="question.max"
+      [id]="question.key">
+    </df-counter>
+    <df-date
+        *ngIf="question.controlType === 'date'"
+        class="df-question"
+        [formControl]="control"
+        [isDisabled]="control.disabled"
+        [attr.aria-label]="question.label"
+        [attr.aria-labelledby]="question.key"
+        [id]="question.key">
+    </df-date>
+    <article
+      *ngIf="question.controlType === 'questionText'"
+      class="df-question df-question__question-text">
+        <p [innerHTML]="question.content" ></p>
+    </article>
+    <df-dropdown
+      *ngIf="question.controlType === 'dropdown'"
+      [placeholder]="question.placeholder"
+      [formControl]="control"
+      [isDisabled]="control.disabled"
+      [required]="question.required"
+      [attr.aria-label]="question.label"
+      [attr.aria-labelledby]="question.key"
+      class="df-question">
+        <df-option 
+          *ngFor="let option of question.options"
+          [value]="option">
+          {{option}}
+        </df-option>
+    </df-dropdown>
+    <df-autocomplete
+       *ngIf="question.controlType === 'autocomplete'"
+       class="df-question"
+       [placeholder]="question.placeholder"
+       [type]="question.type"
+       [ariaLabel]="question.label"
+       [ariaLabelledby]="question.key"
+       [items]="question.options"
+       [isDisabled]="control.disabled"
+       [required]="question.required"
+       [serviceUrl]="question.serviceUrl"
+       [formControl]="control">
+    </df-autocomplete>
+    <df-radio-group
+      *ngIf="question.controlType === 'radio'"
+      [formControl]="control"
+      [isDisabled]="control.disabled"
+      [attr.aria-label]="question.label"
+      [attr.aria-labelledby]="question.key"
+      class="o-flex o-flex--distribute df-question">
+      <df-radio
+        *ngFor="let option of question.options" [value]="option">
+          {{option}}
+      </df-radio>
+    </df-radio-group>
+    <df-slider
+      *ngIf="question.controlType === 'slider'"
+      class="df-question"
+      [formControl]="control"
+      [isDisabled]="control.disabled"
+      [required]="question.required"
+      [attr.aria-label]="question.label"
+      [attr.aria-labelledby]="question.key"
+      [min]="question.min"
+      [max]="question.max"
+      [steps]="question.steps"
+      [values]="question.values">
+    </df-slider>
+    <!--<div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>-->
+</div>

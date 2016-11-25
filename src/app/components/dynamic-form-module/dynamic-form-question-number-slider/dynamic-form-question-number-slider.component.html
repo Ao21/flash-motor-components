@@ -1,0 +1,36 @@
+<div class="df-slider__outer-container">
+	<button 
+		[tabindex]="tabIndex" 
+		(blur)="_onBlur($event)"
+		[disabled]="disabled"
+		class="df-slider__control df-slider__control--prev" 
+		(keydown)="handleKeydown($event, false)" 
+		aria-label="Increase the slider by one" 
+		(click)="prev()"><img src="/assets/icons/icon-forms-left-arrow.svg" alt=""></button>
+	<div class="df-slider__inner-container">
+		<div class="df-slider__highlight"></div>
+		<section
+			(slide)="onSlide($event)"
+			(slidestart)="onSlideStart($event)"
+			(slideend)="onSlideEnd($event)"
+			class="df-slider__items">
+			
+			<df-slider-item
+				*ngFor="let item of sliderItems, let ind = index"
+				[index]="ind"
+				(onSelect)="handleClickSelect($event)"
+				[value]="item.value"
+				class="df-slider__item"
+			>{{item.text}}</df-slider-item>
+			
+		</section>
+	</div>
+	<button 
+		[tabindex]="tabIndex" 
+		[disabled]="disabled"
+		(blur)="_onBlur($event)"
+		class="df-slider__control df-slider__control--next" 
+		aria-label="Decrease the slider by one"
+		(keydown)="handleKeydown($event, true)" 
+		(click)="next()"><img src="/assets/icons/icon-forms-right-arrow.svg" alt=""></button>
+</div>

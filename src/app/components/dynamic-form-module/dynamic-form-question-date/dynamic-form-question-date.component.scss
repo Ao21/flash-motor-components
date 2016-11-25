@@ -1,0 +1,39 @@
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/objects/flex";
+@import "./../../../../styles/settings/globals";
+@import './../../../../styles/tools/functions';
+:host,
+df-date {
+	width: 100%;
+	float: left;
+	&.ng-invalid.ng-dirty.ng-touched {
+		input.ng-valid {
+			border-color: $color-red-warning;
+		}
+	}
+	&>div {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-around;
+		align-items: stretch;
+		float: left;
+		width: 100%;
+	}
+	input {
+		flex: 1 1 130px;
+		margin: 0 size(tiny);
+		&:first-child {
+			margin-left: 0;
+		}
+		&.ng-valid.ng-touched {
+			border-color: $color-primary;
+		}
+		&.ng-invalid.ng-touched {
+			border-color: $color-red-warning;
+		}
+	}
+	input.df-date-year {
+		flex: 2 1 auto;
+		margin-right: 0;
+	}
+}

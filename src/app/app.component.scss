@@ -1,0 +1,24 @@
+@import "./../styles/settings/globals";
+@import "./../styles/tools/functions";
+
+section.main{
+    position: absolute;
+    float: left;
+    overflow-y: auto;
+    margin-left: 0;
+    padding-top: 16px;
+    padding-left: 0;
+    padding-right: 0;
+	width: 100vw;
+    height: 100vh;
+}
+
+nav {
+    margin-left: 12px;
+    display: flex;
+    margin-bottom: 24px;
+    flex-direction: column;
+    a {
+        flex: 1;
+    }
+}

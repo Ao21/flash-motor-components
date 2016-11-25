@@ -1,0 +1,36 @@
+//-------------------------------------
+// #MIXINS-TYPOGRAPHY
+//-------------------------------------
+
+@mixin font-size($size, $line-height: true) {
+  $fs: map-get($font-size, $size);
+
+  font-size: $fs;
+  font-size: rem($fs);
+
+  @if $line-height == true {
+    line-height: ceil($fs / $base-line-height) * ($base-line-height / $fs);
+  }
+}
+
+@mixin font-weight($weight: medium) {
+  font-weight: map-get($font-weight, $weight);
+}
+
+@mixin font-family($family: primary) {
+  font-family: map-get($font-family, $family);
+}
+
+@mixin font-smoothing($smooth: true) {
+  @if $smooth == false {
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: auto;
+  } @else {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@mixin line-height($height: medium) {
+  line-height: strip-units(size($height));
+}

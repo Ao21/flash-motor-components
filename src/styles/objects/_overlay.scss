@@ -1,0 +1,51 @@
+$mf-z-index-overlay-container: 1000;
+$mf-z-index-overlay: 1000;
+$mf-z-index-overlay-backdrop: 1;
+// The overlay-container is an invisible element which contains all individual overlays.
+.mf-overlay-container {
+	position: absolute;
+	// Disable events from being captured on the overlay container.
+	pointer-events: none;
+	// The container should be the size of the viewport.
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: $mf-z-index-overlay-container;
+}
+
+// A single overlay pane.
+.mf-overlay-pane {
+	position: absolute;
+	pointer-events: auto;
+	box-sizing: border-box;
+	z-index: $mf-z-index-overlay;
+	overflow: hidden;
+}
+
+.mf-overlay-backdrop {
+	// TODO(jelbourn): reuse sidenav fullscreen mixin.
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: $mf-z-index-overlay-backdrop;
+	pointer-events: auto;
+	// TODO(jelbourn): figure out if there are actually spec'ed colors for both light and dark
+	// themes here. Currently using the values from Angular Material 1.
+	// transition: opacity $swift-ease-out-duration $swift-ease-out-timing-function;
+	opacity: 0;
+}
+
+.mf-overlay-backdrop.mf-overlay-backdrop-showing {
+	opacity: 0.48;
+}
+
+.mf-overlay-dark-backdrop {
+	// background: $mf-dark-backdrop-color;
+}
+
+.mf-overlay-transparent-backdrop {
+	background: none;
+}

@@ -1,0 +1,14 @@
+//-------------------------------------
+// #BOX-SIZING
+//-------------------------------------
+
+//
+// Set the global `box-sizing` state to `border-box`.
+// http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
+// http://paulirish.com/2012/box-sizing-border-box-ftw
+//
+* {
+  &,
+  &:before,
+  &:after { box-sizing: border-box; }
+}

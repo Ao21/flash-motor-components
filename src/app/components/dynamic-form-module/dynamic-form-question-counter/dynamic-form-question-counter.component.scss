@@ -1,0 +1,21 @@
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/objects/flex";
+@import "./../../../../styles/settings/globals";
+@import './../../../../styles/tools/functions';
+
+
+:host {
+	@include o-flex;
+	width: 100%;
+	& > div {
+		flex: 1 1 auto;
+		line-height: calc(3rem - 2px);
+		text-align: center;
+		margin: 0 size(tiny);
+		border: 1px solid $color-dark-grey;
+
+	}
+	& > button {
+		flex: 0 0 64px;	
+	}
+}

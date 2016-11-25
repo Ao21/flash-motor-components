@@ -1,0 +1,21 @@
+<div class="df-dropdown__trigger" overlay-origin (click)="toggle()" #origin="overlayOrigin" #trigger>
+	<span class="df-dropdown__placeholder" *ngIf="!selected">{{ placeholder }}</span>
+	<span class="df-dropdown__value" *ngIf="selected">{{ selected?.viewValue }}</span>
+	<span [dropdownIcon]="panelOpen" class="df-dropdown__arrow"></span>
+</div>
+
+<template 
+	connected-overlay
+	[origin]="origin" 
+	[open]="panelOpen" 
+	container=".main"
+	[positions]="_positions" 
+	[width]="_getWidth()">
+		<div class="mf-select-panel"
+			[@transformPanel]="_getPanelState()"
+			(@transformPanel.done)="_onPanelDone()">
+			<div class="mf-select-content">
+				<ng-content></ng-content>
+			</div>
+		</div>
+</template>

@@ -1,0 +1,4 @@
+<!--<section class="c-section__content">
+	<h6>{{section.title}}</h6>
+</section>-->
+<mf-dynamic-form *ngFor="let section of sections" [questions]="section.questions" (onStatusChange)="formStatusUpdated($event)"></mf-dynamic-form>

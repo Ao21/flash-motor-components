@@ -1,0 +1,37 @@
+//-------------------------------------
+// #OBJECTS-LAYOUT
+//-------------------------------------
+
+.o-layout {
+  @include o-flex;
+
+  & + .o-layout { margin-top: size(large) }
+
+  &--nowrap { flex-wrap: nowrap; }
+  &--vertical { flex-direction: column; }
+  &--start { justify-content: flex-start; }
+  &--end { justify-content: flex-end; }
+  &--center { justify-content: center; }
+  &--distribute { justify-content: space-around; }
+
+  &__item {
+    @include o-flex(extend);
+    flex-grow: 0;
+    flex-shrink: 1;
+
+    & > img { max-width: 100%; }
+
+    &--middle { align-items: center; }
+    &--center { justify-content: center; }
+    &--half { width: 50%; }
+
+    &--grow-shrink {
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: auto;
+      width: 100%;
+    }
+
+    @include mq(small) { width: 100%; }
+  }
+}

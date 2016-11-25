@@ -1,0 +1,3 @@
+interface Stage {
+	id: string;
+}

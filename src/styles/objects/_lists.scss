@@ -1,0 +1,41 @@
+//-------------------------------------
+// #OBJECT-LISTS
+//-------------------------------------
+
+//
+// #LIST-BLOCK
+//
+@mixin o-list-block {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    margin-bottom: size(mini);
+
+    &:last-child { margin-bottom: 0; }
+  }
+}
+
+.o-list-block { @include o-list-block; }
+
+
+
+
+
+//
+// #LIST-INLINE
+//
+@mixin o-list-inline {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & > li { flex: 1 1 auto; }
+}
+
+.o-list-inline { @include o-list-inline; }

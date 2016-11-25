@@ -1,0 +1,48 @@
+<div 
+	class="df-autocomplete__trigger"
+	overlay-origin 
+	#origin="overlayOrigin" 
+	#trigger>
+	<input 
+		aria-label="Typing here will open a list of options and select the first one"
+		aria-autocomplete="list" 
+		[tabindex]="_getTabIndex()"
+		(blur)="_onBlur()"
+		(keydown)="handleKeydownEvent($event)"
+		role="combobox"
+		[attr.aria-label]="ariaLabel"
+		[attr.aria-required]="required"
+		[attr.aria-disabled]="disabled"
+		[attr.aria-invalid]="!formControl.valid"
+		[attr.aria-ariaLabelledby]="ariaLabelledby"
+		[attr.aria-expanded]="panelOpen"
+		[attr.aria-valuetext]="value.text"
+		[placeholder]="placeholder" 
+		#currentInput 
+		[formControl]="queryControl" 
+		class="df-autocomplete__input" 
+		type="text">
+	<span [autocompleteIcon]="queryControl" class="df-autocomplete__arrow"></span>
+</div>
+
+<template 
+	connected-overlay
+	#overlay
+	[origin]="origin" 
+	[open]="panelOpen" 
+	container=".main"
+	(positionChange)="_updateTransformOrigin($event)"
+	[positions]="_positions" 
+	[width]="_getWidth()">
+		<div class="mf-select-panel"
+			[@transformPanel]="_getPanelState()"
+			(@transformPanel.done)="_onPanelDone()">
+			<div class="mf-select-content">
+				 <df-option 
+          			*ngFor="let option of autocompleteItems"
+          			[value]="option.id">
+					  <p [innerHTML]="option.text | highlight: currentInput.value"></p>
+		        </df-option>
+			</div>
+		</div>
+</template>

@@ -1,0 +1,31 @@
+//-------------------------------------
+// #ELEMENTS-INPUT
+//-------------------------------------
+
+input {
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid $color-med-dark-grey;
+
+	&:focus {
+		outline:  none;
+	}
+}
+
+span.highlight-item {
+	font-weight: 600;
+}
+
+.input-icon-status {
+	position: absolute;
+	right: 0;
+	width: 27px;
+	height: 27px;
+	margin: 0 1.5rem;
+	top: 30px;
+
+	&--year {
+		top: -3px;
+		margin: 0;
+	}
+}

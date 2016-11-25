@@ -1,0 +1,36 @@
+<div [class.ng-complete]="isComplete" class="df-question-date-group" [formGroup]="dateForm">
+	<input
+	#dayInput
+	(blur)="_onBlur()"
+	class="df-date-input df-date-day"
+	aria-label="Day Input"
+	[attr.aria-invalid]="!day.valid"
+	(input)="_autoTab($event, monthInput)"
+	formControlName="day" 
+	placeholder="DD"
+	maxlength="2"
+	type="tel">
+	<input
+	#monthInput
+	(blur)="_onBlur()"
+	class="df-date-input df-date-month"
+	(input)="_autoTab($event, yearInput)"
+	aria-label="Month Input"
+	[attr.aria-invalid]="!month.valid"
+	maxlength="2"
+	placeholder="MM"
+	formControlName="month"  
+	type="tel">
+	<input
+	#yearInput
+	(blur)="_onBlur()"
+	class="df-date-input df-date-year"
+	aria-label="Year Input"
+	[attr.aria-invalid]="!year.valid"
+	maxlength="4"
+	placeholder="YY"
+	formControlName="year"  
+	[inputIcon]="formControl"
+	type="tel">
+</div>
+

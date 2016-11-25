@@ -1,0 +1,26 @@
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/objects/flex";
+@import "./../../../../styles/settings/globals";
+@import './../../../../styles/tools/functions';
+
+:host,
+df-option {
+	&:nth-of-type(even) {
+		background-color: white;
+	}
+	&:last-of-type{
+		border-bottom: none;
+	}
+	background-color: $color-light;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 48px;
+	padding: 0 16px;
+	border-bottom: 1px solid $color-light-grey;
+	&:hover, &.selected {
+		background-color: $color-primary;
+		color: $color-light;
+	}
+	
+}

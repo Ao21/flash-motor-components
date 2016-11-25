@@ -1,0 +1,75 @@
+//-------------------------------------
+// #TRUMPS-UTILITIES
+//-------------------------------------
+//
+// TEXT
+//
+.u-text-left {
+  text-align: left;
+}
+
+.u-text-center {
+  text-align: center;
+}
+
+.u-text-right {
+  text-align: right;
+}
+
+%u-text-shadow,
+.u-text-shadow {
+  text-shadow: $base-shadow;
+}
+
+%u-text-hidden,
+.u-text-hidden {
+  @include text-hidden;
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+//
+// CLEARFIX
+//
+%u-clearfix,
+.u-clearfix {
+  @include clearfix;
+}
+
+//
+// BOX SHADOW
+//
+%u-box-shadow,
+.u-box-shadow {
+  box-shadow: $base-shadow;
+}
+
+//
+// RESPONSIVE DISPLAY
+//
+@each $screen,
+$size in $breakpoints {
+  .u-hide-for-#{$screen} {
+    @include mq(#{$screen}) {
+      display: none !important;
+    }
+  }
+}
+
+@each $screen,
+$size in $breakpoints {
+  .u-show-for-#{$screen} {
+    @include mq(#{$screen}) {
+      display: initial !important;
+    }
+  }
+}

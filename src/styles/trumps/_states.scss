@@ -1,0 +1,50 @@
+//-------------------------------------
+// #TRUMPS-STATES
+//-------------------------------------
+
+//
+// SHAPES
+//
+.is-squared { border-radius: 0 !important; }
+.is-radius { border-radius: rem(3px) !important; }
+.is-rounded { border-radius: size(large) !important; }
+.is-circular { border-radius: 100% !important; }
+
+.is-expanded {
+  display: block;
+  width: 100%;
+
+  @include mq(small) {
+    & + * { margin-top: size(small); }
+  }
+}
+
+
+
+
+
+//
+// SPACING
+//
+.has-no-spacing {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.has-no-padding { padding: 0 !important; }
+.has-no-margin { margin: 0 !important; }
+
+.is-spaced {
+  margin: size(large) !important;
+  padding: size(large) !important;
+}
+
+.is-padded {
+  padding: size(large) !important;
+
+  @include mq(small) {
+    padding: size(medium) !important;
+  }
+}
+
+.is-marged { margin: size(large) !important; }

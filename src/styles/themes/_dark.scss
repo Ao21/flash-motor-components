@@ -1,0 +1,27 @@
+//-------------------------------------
+// #THEMES-DARK
+//-------------------------------------
+
+.t-dark {
+  background-color: palette(dark);
+  color: palette(light);
+
+  h1,h2,h3,h4,h5,h6,
+  [class*="__title"],
+  [class*="__subtitle"] { color: palette(light); }
+
+  .c-button {
+    &--primary { color: palette(dark); }
+  }
+
+  [class*="__header"] {
+    background-color: palette(dark, xxdark);
+    color: palette(light);
+  }
+
+  a {
+    color: palette(light);
+
+    &:hover { text-decoration: underline; }
+  }
+}

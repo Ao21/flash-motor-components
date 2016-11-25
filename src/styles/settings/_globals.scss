@@ -1,0 +1,21 @@
+//-------------------------------------
+// #SETTINGS-GLOBAL
+//-------------------------------------
+
+$base-size        : 16px !default;
+$base-line-height : 24px !default;
+
+$base-spacing: (
+  "mini"    : $base-line-height / 4,
+  "tiny"    : $base-line-height / 3,
+  "small"   : $base-line-height / 2,
+  "medium"  : $base-line-height,
+  "large"   : $base-line-height * 2,
+  "huge"    : $base-line-height * 3,
+  "big"     : $base-line-height * 4
+) !default;
+
+$base-shadow : 0 1px 1px rgba(black, 0.5);
+$base-transition  : all 0.3s ease 0s !global;
+
+$base-images-path : "assets/img" !global;

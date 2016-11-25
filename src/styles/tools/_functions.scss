@@ -1,0 +1,86 @@
+//-------------------------------------
+// #TOOLS-FUNCTIONS
+//-------------------------------------
+
+//
+// #REM CALC
+//
+@function strip-units($value) {
+  @return $value / ($value * 0 + 1);
+}
+
+@function rem($target, $rem-context: $base-size) {
+  @if not unitless($target) {
+    $target: strip-units($target);
+  }
+
+  @if not unitless($rem-context) {
+    $rem-context: strip-units($rem-context);
+  }
+
+  @return $target / $rem-context * 1rem;
+}
+
+
+
+
+
+//
+// #BASE SPACING
+//
+@function size($size: regular, $rem: rem) {
+  $bs: ();
+
+  @if type-of($size) == number {
+    $bs: rem($base-line-height * $size)
+  }
+  @else if $rem == "rem" {
+    $bs: rem(map-get($base-spacing, $size));
+  } @else {
+    $bs: map-get($base-spacing, $size);
+  }
+  @return $bs;
+}
+
+
+
+
+
+//
+// #COLLECT PALETTES
+//
+@function map-collect($maps...) {
+  $collection: ();
+
+  @each $map in $maps {
+    $collection: map-merge($collection, $map);
+  }
+
+  @return $collection;
+}
+
+
+
+
+
+//
+// #COLOR PALETTE
+//
+@function palette($key, $tone: base) {
+  $color: map-get($color-palette, $key);
+  $amount: map-get($color-tone, $tone);
+
+  $palette: (
+    $key: (
+      "base"    : mix(black, $color, $amount),
+      "dark"    : mix(black, $color, $amount),
+      "xdark"   : mix(black, $color, $amount),
+      "xxdark"  : mix(black, $color, $amount),
+      "light"   : mix(white, $color, $amount),
+      "xlight"  : mix(white, $color, $amount),
+      "xxlight" : mix(white, $color, $amount)
+    )
+  );
+
+  @return map-get(map-get($palette, $key), $tone);
+}

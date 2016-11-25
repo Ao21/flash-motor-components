@@ -1,0 +1,70 @@
+//-------------------------------------
+// #SETTINGS-COLOURS
+//-------------------------------------
+
+@import "../tools/functions";
+
+$color-brand            : #ffcc00;
+$color-dark             : #1B1918;
+$color-dark-grey        : #3d3e3c;
+$color-med-dark-grey    : #9a9c9a;
+$color-med-light-grey   : #c7c8c7;
+$color-light-grey       : #e1e3e1;
+$color-light            : #f7f7f7;
+$color-yellow-warning   : #ffe602;
+$color-orange-warning   : #f29922;
+$color-red-warning      : #e84236;
+$color-primary          : #44b491;
+$color-primary-shadow   : #009a77;
+$color-secondary        : #ec6355;
+$color-secondary-shadow : #c04a3c;
+$color-tertiary         : #eb7e15;
+$color-tertiary-shadow  : #dc6a20;
+
+
+
+
+
+//
+// #COLOUR TONES
+//
+$color-tone: (
+  "base"    : 0%,
+  "dark"    : 5%,
+  "xdark"   : 15%,
+  "xxdark"  : 25%,
+  "light"   : 5%,
+  "xlight"  : 15%,
+  "xxlight" : 25%
+) !default;
+
+
+
+
+
+//
+// #PALETTE
+//
+$color-palette : (
+  "brand"            : $color-brand,
+
+  "dark"             : $color-dark,
+  "dark-grey"        : $color-dark-grey,
+  "med-dark-grey"    : $color-med-dark-grey,
+  "med-light-grey"   : $color-med-light-grey,
+  "light-grey"       : $color-light-grey,
+  "light"            : $color-light,
+
+  "yellow-warning"   : $color-yellow-warning,
+  "orange-warning"   : $color-orange-warning,
+  "red-warning"      : $color-red-warning,
+
+  "primary"          : $color-primary,
+  "primary-shadow"   : $color-primary-shadow,
+
+  "secondary"        : $color-secondary,
+  "secondary-shadow" : $color-secondary-shadow,
+
+  "tertiary"         : $color-tertiary,
+  "tertiary-shadow"  : $color-tertiary-shadow,
+);

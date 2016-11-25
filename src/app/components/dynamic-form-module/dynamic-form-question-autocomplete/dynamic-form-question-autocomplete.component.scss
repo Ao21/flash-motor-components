@@ -1,0 +1,39 @@
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/objects/flex";
+@import "./../../../../styles/settings/globals";
+@import './../../../../styles/tools/functions';
+:host{
+	float: left;
+	width: 100%;
+}
+
+:host,
+.df-autocomplete {
+	&.ng-valid &__trigger{
+		border-color: $color-primary;
+	}
+	&__trigger {
+		display: flex;
+		padding: 0 size(small);
+		justify-content: flex-start;
+		align-items: center;
+		height: 48px;
+		min-width: 100%;
+		cursor: pointer;
+		border: 1px solid $color-med-dark-grey;
+		color: $color-med-dark-grey;
+		border-radius: 2px;
+	}
+	&__input{
+		margin: 0;
+		border: none;
+		flex: 1 1 auto;
+	}
+	&__arrow{
+		flex: 0 0 16px;
+		position: relative;
+	}
+
+	
+}
+

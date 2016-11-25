@@ -1,0 +1,24 @@
+//-------------------------------------
+// #THEMES-RED
+//-------------------------------------
+
+.t-red {
+  background-color: palette(secondary);
+  color: palette(light);
+
+  .c-button {
+    &--outline {
+      border-color: palette(light);
+      color: palette(light);
+    }
+  }
+
+  [class*="__header"] {
+    background-color: palette(secondary-shadow);
+    color: palette(light);
+  }
+
+  h1,h2,h3,h4,h5,h6,
+  [class*="__title"],
+  [class*="__subtitle"] { color: palette(light); }
+}

@@ -1,0 +1,27 @@
+//-------------------------------------
+// #OBJECTS-SECTIONS
+//-------------------------------------
+
+.o-section {
+  padding: size(large) 0;
+
+  &__content {
+    @include mq(small) { margin-bottom: size(medium); }
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: size(large);
+  }
+
+  &__subtitle { margin-bottom: size(medium); }
+
+  &--small {
+    padding: size(small) 0;
+
+    .o-section__title { margin-bottom: size(small); }
+    .o-section__subtitle { margin-bottom: size(tiny); }
+  }
+
+  @include mq(small) { padding: size(medium) 0; }
+}

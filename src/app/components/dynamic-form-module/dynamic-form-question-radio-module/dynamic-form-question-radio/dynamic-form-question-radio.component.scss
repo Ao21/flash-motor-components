@@ -1,0 +1,32 @@
+@import "./../../../../../styles/settings/colours";
+@import "./../../../../../styles/settings/globals";
+@import "./../../../../../styles/settings/typography";
+@import './../../../../../styles/tools/functions';
+@import './../../../../../styles/tools/typography';
+@import "./../../../../../styles/objects/buttons";
+:host {
+	flex: 1 1 auto;
+	margin-right: size(medium);
+	&:last-child {
+		margin-right: 0;
+	}
+	.df-radio-label {
+		@include o-button;
+		@include font-size(regular);
+		padding: 0;
+		margin-bottom: 0;
+		border: 2px solid;
+		border-color: $color-med-dark-grey;
+		border-radius: 2px;
+		color: $color-med-dark-grey;
+		height: 48px;
+		line-height: 46px;
+	}
+	&.is-checked {
+		.df-radio-label {
+			border: 2px solid;
+			border-color: palette(primary);
+			color: $color-dark;
+		}
+	}
+}

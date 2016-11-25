@@ -1,0 +1,10 @@
+@import "./../../../../../styles/settings/colours";
+
+span {
+	color: $color-med-light-grey;
+	font-weight: 600;
+}
+
+span.active {
+	color: $color-dark;
+}

@@ -1,0 +1,18 @@
+//-------------------------------------
+// #SETTINGS-RESPONSIVE
+//-------------------------------------
+
+
+//
+// Hold our breakpoint aliases and conditions in a list.
+//
+// These can be invoked later on via the `media-query()` mixin found in
+// `_tools.responsive`.
+//
+
+$breakpoints: (
+  "small"  : "screen and (max-width: #{rem(720px)})",
+  "medium" : "screen and (min-width: #{rem(768px)})",
+  "large"  : "screen and (min-width: #{rem(1025px)})",
+  "wide"   : "screen and (min-width: #{rem(1441px)})"
+) !default;

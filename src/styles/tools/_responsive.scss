@@ -1,0 +1,25 @@
+//-------------------------------------
+// #MIXINS-RESPONSIVE (by @csswizardry)
+//-------------------------------------
+
+
+//
+// A simple mixin to quickly generate whole media queries from the aliases and
+// conditions defined in `settings/_responsive.scss`.
+//
+// Usage:
+//
+// .foo {
+//   color: green;
+//
+//   @include mq(small) {
+//     color: red;
+//   }
+// }
+//
+@mixin mq($mq) {
+  $resolution: map-get($breakpoints, $mq);
+  @media #{$resolution} {
+    @content;
+  }
+}

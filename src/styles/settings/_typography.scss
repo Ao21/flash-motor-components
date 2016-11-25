@@ -1,0 +1,34 @@
+//-------------------------------------
+// #SETTINGS-TYPOGRAPHY
+//-------------------------------------
+
+$font-family : (
+  "sans"    : ("Proxima Nova", Helvetica, "Helvetica Neue", Arial, sans-serif),
+  "serif"   : (Georgia, "Times New Roman", Times, serif),
+  "mono"    : (Inconsolata, "Courier New", Courier, monospace),
+  "primary" : ("Open Sans", sans-serif),
+  "heading" : ("Open Sans", sans-serif)
+) !default;
+
+$font-size : (
+  "mini"    : 8px,
+  "tiny"    : 12px,
+  "small"   : 14px,
+  "regular" : 16px,
+  "medium"  : 18px,
+  "large"   : 24px,
+  "huge"    : 32px,
+  "big"     : 36px,
+  "giant"   : 48px,
+  "ogro"    : 56px,
+  "monster" : 60px,
+  "god"     : 72px
+) !default;
+
+$font-weight : (
+  "thin"   : 100,
+  "light"  : 300,
+  "medium" : 400,
+  "bold"   : 600,
+  "bolder" : 800
+) !default;

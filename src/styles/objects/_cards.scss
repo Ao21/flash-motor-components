@@ -1,0 +1,85 @@
+//-------------------------------------
+// #OBJECTS-CARDS
+//-------------------------------------
+
+@mixin o-card {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  width: 100%;
+  max-width: rem(400px);
+
+  &__header,
+  &__content,
+  &__footer {
+    padding: size(small);
+    width: 100%;
+  }
+
+  &__image, img, svg {
+    max-width: 75%;
+
+    & + * { margin-top: size(medium); }
+  }
+
+  &__title, h4 { @include font-size(large); }
+
+  &__subtitle, h5 {
+    @include font-size(medium);
+    opacity: .65;
+  }
+
+  &__copy, p { @include font-size(regular, false); }
+
+  & + & {
+    margin-left: size(small);
+
+    @include mq(small) {
+      margin-bottom: size(small);
+      margin-left: 0;
+    }
+  }
+
+  &--small {
+    width: rem(250px);
+
+    [class*="__header"],
+    [class*="__content"],
+    [class*="__footer"] { padding: size(tiny); }
+
+    [class*="__image"], img {
+      & + * { margin-top: size(medium); }
+    }
+
+    [class*="__title"], h4 { @include font-size(medium); }
+    [class*="__subtitle"], h5 { @include font-size(regular); }
+    [class*="__copy"], p { @include font-size(small, false); }
+  }
+
+  @include mq(medium) { max-width: 30% }
+
+  &--tiny {
+    width: rem(175px);
+
+    [class*="__header"],
+    [class*="__content"],
+    [class*="__footer"] { padding: size(mini); }
+
+    [class*="__image"], img {
+      & + * { margin-top: size(medium); }
+    }
+
+    [class*="__title"], h4 { @include font-size(regular); }
+    [class*="__subtitle"], h5 { @include font-size(small); }
+    [class*="__copy"], p { @include font-size(tiny, false); }
+
+    @include mq(medium) { max-width: 23% }
+  }
+}
