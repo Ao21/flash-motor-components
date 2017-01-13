@@ -15,6 +15,7 @@ export class AutocompleteQuestion extends QuestionBase<AutocompleteItem> {
 		value?: AutocompleteItem,
 		key?: string,
 		options?: AutocompleteItem[],
+		autoCompleteType?: any,
 		placeholder?: string,
 		type?: string,
 		label?: string,

@@ -276,7 +276,7 @@ export const getSummaryPagesWithQuestions = function (state$: Observable<State>)
 	).map(([stages, pages, sections]) => {
 		console.log(stages);
 
-		let filteredPages = _.filter(pages, (page) => {
+		let filteredPages = _.filter(pages, (page: Page) => {
 			return _.find(stages[0].pages, (pg: string) => pg === page.id);
 		});
 
