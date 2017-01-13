@@ -1,4 +1,5 @@
 import { QuestionBase } from './questionBase';
+import { isPresent } from '@angular/core/src/facade/lang';
 
 export class TextBox extends QuestionBase<string> {
 	controlType = 'textbox';

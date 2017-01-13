@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { URLCONSTS } from './../constants';
-
+import { environment } from './../../environments/environment';
+import { Observable} from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { LoadProductConfigAction } from './../stores/product-config/product-config.actions';
 
+import * as fromRoot from './../stores/reducer';
 
 @Injectable()
 export class ProductConfigService {
 
 	constructor(
-		private store: Store<ProductConfig>,
+		private store: Store<fromRoot.State>,
 		private http: Http
 	) { }
 
@@ -19,8 +20,8 @@ export class ProductConfigService {
 		this.store.dispatch(new LoadProductConfigAction());
 	}
 
-	getConfig() {
-		return this.http.get(URLCONSTS.GET_CONFIG_URL);
+	getConfig(): Observable<any> {
+		return this.http.get(environment.urls.GET_CONFIG_URL);
 	}
 
 }

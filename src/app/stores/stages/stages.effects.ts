@@ -9,17 +9,9 @@ import { ProductConfigService } from './../../services/product-config.service';
 @Injectable()
 export class StagesEffects {
 
-	@Effect() load$: Observable<Action> = this.actions$
-		.ofType(stages.ActionTypes.LOAD)
-		.switchMap(action =>
-			this.productConfigService.getConfig()
-				.map(res => ({ type: stages.ActionTypes.ADD_PAGE_SUCCESS, payload: res }))
-				.catch(err => Observable.of({ type: stages.ActionTypes.ADD_PAGE_FAILURE, payload: err }))
-		);
 
 	constructor(
 		private actions$: Actions,
-		private productConfigService: ProductConfigService
 	) { }
 
 

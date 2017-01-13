@@ -1,0 +1,8 @@
+<mf-dynamic-form #default [questions]="defaultQuestion"></mf-dynamic-form>
+<section class="c-section__content">
+  <div class="c-button--group--vertical">
+    <button (click)="searchForRegistration(default)" class="c-button c-button--expand c-button--green">Find</button>
+    <button (click)="emitNoRegistration()" class="c-button c-button--expand c-button--outline-grey">I don't know</button>
+  </div>
+</section>
+

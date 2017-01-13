@@ -1,0 +1,17 @@
+@import "./../../../../styles/settings/globals";
+
+
+:host,
+section-conf-button{
+	@include flex(1 0 auto);
+	@include flex-direction(column);
+	@include justify-content(flex-end);
+	padding-left: 3rem;
+	width: 100%;
+
+	@include display(flex);
+	button {
+		@include flex(0 0 3rem);
+		align-self: flex-end;
+	}
+}

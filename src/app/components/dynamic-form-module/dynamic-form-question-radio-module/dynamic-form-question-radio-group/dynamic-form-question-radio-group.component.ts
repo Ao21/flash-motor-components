@@ -93,6 +93,12 @@ export class DynamicFormQuestionRadioGroupDirective implements AfterContentInit,
 	/** onTouch function registered via registerOnTouch (ControlValueAccessor). */
 	private _onTouchedCallback: () => void = noop;
 
+	@HostBinding('class.df-radio-group--vertical') get checkIfAligned() {
+		return this.alignment === 'vertical';
+	}
+
+	@Input() alignment: string;
+
 	/** Event emitted when the group value changes. */	
 	@Output()
 	change: EventEmitter<DFRadioChange> = new EventEmitter<DFRadioChange>();

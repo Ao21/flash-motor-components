@@ -1,5 +1,7 @@
 import { QuestionBase } from './questionBase';
 import { ValidatorFn } from '@angular/forms';
+import { isPresent } from '@angular/core/src/facade/lang';
+
 
 export class AutocompleteQuestion extends QuestionBase<AutocompleteItem> {
 	controlType: string = 'autocomplete';
@@ -7,12 +9,12 @@ export class AutocompleteQuestion extends QuestionBase<AutocompleteItem> {
 	options?: AutocompleteItem[] = [];
 	placeholder: string;
 	type?: string;
+	link?: string;
 
 	constructor(options: {
 		value?: AutocompleteItem,
 		key?: string,
 		options?: AutocompleteItem[],
-		autoCompleteType?: string;
 		placeholder?: string,
 		type?: string,
 		label?: string,
@@ -24,11 +26,13 @@ export class AutocompleteQuestion extends QuestionBase<AutocompleteItem> {
 		trigger?: any,
 		disabled?: boolean;
 		controlType?: string
+		link?: string;
 	} = {}) {
 		super(options);
 		this.type = options['autoCompleteType'] || 'options';
 		this.serviceUrl = options['serviceUrl'] || '';
 		this.options = options['options'] || [];
+		this.link = isPresent(options['link']) ? options['link'] : undefined;
 		this.placeholder = options['placeholder'] || 'Start typing to get a list of options';
 	}
 }

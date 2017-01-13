@@ -1,112 +1,206 @@
 //-------------------------------------
 // #COMPONENTS-BUTTON
 //-------------------------------------
-
 .c-button {
-  @include o-button;
-  color: inherit;
-  transition: $base-transition;
+	@include o-button;
+	color: inherit;
+	@include font-size(regular);
+	min-height: 3rem;
+	background-color: transparent;
+	transition: $base-transition;
+	&:hover {
+		opacity: .75;
+	}
+	&--expand {
+		width: 100%;
+	}
+	&--group {
+		@include display(flex);
+		float: left;
+		width: 100%;
+		margin-bottom: size(medium);
+		&>button {
+			@include flex(1 1 auto);
+		}
+		&--vertical {
+			@include flex-direction(column);
+			&>button {
+				margin-bottom: size(small);
+			}
+			.c-button+.c-button {
+				margin-left: 0;
+			}
+		}
+	}
+	/**
+  *   Default Button Styles
+  */
+	&--primary {
+		background-color: palette(brand);
+		color: palette(dark);
+	}
+	&--green,
+	&--red,
+	&.is-disabled,
+	&.is-disabled--dark {
+		color: palette(light);
+	}
+	&--green {
+		background-color: palette(primary);
+	}
+	&--red {
+		background-color: palette(secondary);
+	}
+	&.is-disabled {
+		background-color: palette(med-light-grey);
+		cursor: not-allowed;
+		&:hover {
+			background-color: palette(med-light-grey);
+			opacity: 1;
+		}
+		&--dark {
+			background-color: palette(med-dark-grey);
+			cursor: not-allowed;
+			&:hover {
+				background-color: palette(med-dark-grey);
+				opacity: 1;
+			}
+		}
+	}
+	/**
+  *  Image Button Styles
+  */
+	& &--span-text {}
+	& &--span-img {
+		display: none;
+	}
+	&--image-only {
+		.c-button--span-img {
+			display: block;
+			svg,
+			img {
+				max-height: 1rem;
+			}
+		}
+		.c-button--span-text {
+			display: none;
+		}
+	}
+	&--image {
+		@include display(flex);
+		@include align-items(center);
+		padding: 0 0.75rem;
+		.c-button--span-img {
+			@include flex(0 0 1rem);
+			@include display(flex);
+			align-items: center;
+			justify-content: center;
+			align-content: center;
+			svg,
+			img {
+				@include flex(1 1 auto);
+				max-height: 1rem;
+			}
+		}
+		.c-button--span-text {
+			@include flex(1 1 auto);
+			font-weight: 200;
+			text-transform: none;
+			align-content: flex-start;
+			align-self: flex-start;
+			justify-content: flex-start;
+			text-align: left;
+		}
+	}
+	/**
+  *   Outline Button Styles
+  */
+	&--outline {
+		border: 1px solid;
+		border-color: inherit;
+		color: inherit;
+		&-brand {
+			border: 1px solid;
+			border-color: palette(brand);
+			color: palette(dark);
+		}
+		&-green {
+			border: 1px solid;
+			border-color: palette(primary);
+			color: palette(dark);
+		}
+		&-disabled {
+			border: 1px solid;
+			border-color: palette(med-dark-grey);
+			color: palette(dark);
+		}
+		&-grey {
+			border: 1px solid;
+			border-color: palette(med-dark-grey);
+			color: palette(med-dark-grey);
+		}
+		&-nosides {
+			border-left: none;
+			border-right: none;
+		}
+		&-green,
+		&-disabled {
+			@at-root {
+				.t-dark {
+					.c-button--outline-green,
+					.c-button--outline-disabled {
+						color: palette(light) !important;
+					}
+				}
+			}
+		}
+		
 
-  &:hover { opacity: .75; }
-
-  &--primary {
-    background-color: palette(brand);
-    color: palette(dark);
-  }
-
-  &--green,
-  &--red,
-  &.is-disabled,
-  &.is-disabled--dark { color: palette(light); }
-
-  &--green { background-color: palette(primary); }
-  &--red { background-color: palette(secondary); }
-
-  &.is-disabled {
-    background-color: palette(med-light-grey);
-    cursor: not-allowed;
-
-    &:hover {
-      background-color: palette(med-light-grey);
-      opacity: 1;
-    }
-
-    &--dark {
-      background-color: palette(med-dark-grey);
-      cursor: not-allowed;
-
-      &:hover {
-        background-color: palette(med-dark-grey);
-        opacity: 1;
-      }
-    }
-  }
-
-
-  &--outline {
-    border: 1px solid;
-    border-color: inherit;
-    color: inherit;
-
-    &-green {
-      border: 1px solid;
-      border-color: palette(primary);
-      color: palette(dark);
-    }
-
-    &-disabled {
-      border: 1px solid;
-      border-color: palette(med-dark-grey);
-      color: palette(dark);
-    }
-
-    &-green,
-    &-disabled {
-      @at-root {
-        .t-dark {
-          .c-button--outline-green,
-          .c-button--outline-disabled { color: palette(light) !important; }
-        }
-      }
-    }
-  }
-
-  &--large { min-width: rem(200px); }
-
-  &--plus,
-  &--minus {
-    @include font-size(huge, false);
-	height: 3rem;
-	line-height: 3rem;
-    color: palette(light);
-    padding: 0;
-    transition: $base-transition;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    user-select: none;
-  }
-
-  &--plus:hover,
-  &--minus:hover {
-    color: palette(light);
-    text-decoration: none;
-    opacity: 1;
-  }
-
-  &--plus:active,
-  &--minus:active { box-shadow: inset 0px 5px 5px 0px rgba(0, 0, 0, 0.3); }
-
-  &--plus:hover { background-color: palette(primary, dark); }
-  &--plus { background-color: palette(primary); }
-
-  &--minus:hover { background-color: palette(secondary, dark); }
-  &--minus { background-color: palette(secondary); }
-
-  @at-root {
-    p + & {
-      @include mq(small) { margin-top: size(medium); }
-    }
-  }
+		
+	}
+	&--large {
+		min-width: rem(200px);
+	}
+	&--plus,
+	&--minus {
+		@include font-size(huge, false);
+		height: 3rem;
+		line-height: 3rem;
+		color: palette(light);
+		padding: 0;
+		transition: $base-transition;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+		user-select: none;
+	}
+	&--plus:hover,
+	&--minus:hover {
+		color: palette(light);
+		text-decoration: none;
+		opacity: 1;
+	}
+	&--plus:active,
+	&--minus:active {
+		box-shadow: inset 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
+	}
+	&--plus:hover {
+		background-color: palette(primary, dark);
+	}
+	&--plus {
+		background-color: palette(primary);
+	}
+	&--minus:hover {
+		background-color: palette(secondary, dark);
+	}
+	&--minus {
+		background-color: palette(secondary);
+	}
+	@at-root {
+		p+& {
+			@include mq(small) {
+				margin-top: size(medium);
+			}
+		}
+	}
 }

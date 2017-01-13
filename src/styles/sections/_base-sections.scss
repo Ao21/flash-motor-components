@@ -1,10 +1,24 @@
+@import "./../settings/globals";
+
 .c-section {
 	&__content {
-		margin-left: 48px;
+		@include flex(0 0 auto);
+		margin-bottom: size(medium);
+		margin-left: $timeline-width;
 		padding: 0 size(medium);
+		
+	}
+	&--hr {
+		@include flex(0 0 auto);
+		float: left;
+		margin-left: $timeline-width;
+		width: calc(100% - #{$timeline-width});
+		border-bottom: 1px solid $color-light-grey;
 		margin-bottom: size(medium);
 	}
 }
+
+
 
 mf-details-page,
 mf-pre-page {

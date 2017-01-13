@@ -4,6 +4,7 @@ import {
 	Input,
 	OnInit,
 	Output,
+	OnDestroy,
 	Optional,
 	ElementRef,
 	EventEmitter,
@@ -33,7 +34,7 @@ import { DynamicFormQuestionRadioGroupDirective, DFRadioChange } from './../dyna
 	templateUrl: './dynamic-form-question-radio.component.html',
 	styleUrls: ['./dynamic-form-question-radio.component.scss']
 })
-export class DynamicFormQuestionRadioComponent implements OnInit {
+export class DynamicFormQuestionRadioComponent implements OnInit, OnDestroy {
 
 	/** Sets whether hte radio button is focused */
 	@HostBinding('class.md-radio-focused') _isFocused: boolean;
@@ -143,6 +144,10 @@ export class DynamicFormQuestionRadioComponent implements OnInit {
 			// Copy name from parent radio group
 			this.name = this.radioGroup.name;
 		}
+	}
+
+	ngOnDestroy() {
+		_uniqueIdCounter = _uniqueIdCounter - 1;
 	}
 
 	private _emitChangeEvent(): void {

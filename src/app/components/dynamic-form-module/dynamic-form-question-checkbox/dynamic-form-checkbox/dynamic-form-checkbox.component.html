@@ -1,0 +1,21 @@
+<label class="df-checkbox-label">
+    <input #input
+           class="df-checkbox-input visually-hidden" 
+           type="checkbox"
+           [id]="inputId"
+           [required]="required"
+           [checked]="checked"
+           [disabled]="disabled"
+           [name]="name"
+           [tabIndex]="tabindex"
+           [indeterminate]="indeterminate"
+           [attr.aria-label]="ariaLabel"
+           [attr.aria-labelledby]="ariaLabelledby"
+           (focus)="_onInputFocus()"
+           (blur)="_onInputBlur()"
+           (change)="_onInteractionEvent($event)"
+           (click)="_onInputClick($event)">
+  <span class="df-checkbox-label-content">
+    <ng-content></ng-content>
+  </span>
+</label>

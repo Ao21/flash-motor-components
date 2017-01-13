@@ -6,10 +6,14 @@ export class OverlayContainer {
 	private _containerElement: HTMLElement;
 	private _defaultContainer: HTMLElement | Element = document.body;
 
+	updateContainerlocation(newContainer) {
+		newContainer.appendChild(this._containerElement);
+	}	
 
 	setContainerLocation(el: Element) {
 		this._defaultContainer = el;
-	}	
+	}
+
 	/**
 	 * This method returns the overlay container element.  It will lazily
 	 * create the element the first time  it is called to facilitate using
@@ -30,5 +34,10 @@ export class OverlayContainer {
 		container.classList.add('mf-overlay-container');
 		this._defaultContainer.appendChild(container);
 		this._containerElement = container;
+	}
+
+
+	destroyContainer(): void {
+		this._containerElement.remove();
 	}
 }

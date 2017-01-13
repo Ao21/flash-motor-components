@@ -21,6 +21,9 @@
   @return $target / $rem-context * 1rem;
 }
 
+@function get-line-height($size) {
+  @return map-get($line-heights, $size);
+}
 
 
 

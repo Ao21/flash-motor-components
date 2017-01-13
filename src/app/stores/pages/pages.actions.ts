@@ -2,10 +2,16 @@ import { Action } from '@ngrx/store';
 import { type } from './../../core/utils/utils';
 
 export const ActionTypes = {
+	SELECT: type('[Pages] Select a Page'),
+	UPDATE: type('[Pages] Update a Page'),
 	LOAD: type('[Pages] Load Stages'),
-	LOAD_SUCCESS: type('[Pages] Load Stages Success'),
-	LOAD_FAILURE: type('[Pages] Load Stage Failure')
 };
+
+
+export class SelectPagesAction implements Action {
+	type = ActionTypes.SELECT;
+	constructor(public payload: string) { };
+}
 
 /**
  * Load All Pages to Stage 
@@ -13,22 +19,17 @@ export const ActionTypes = {
 
 export class LoadPagesAction implements Action {
 	type = ActionTypes.LOAD;
-	constructor() { };
-}
-
-export class LoadPagesSuccessAction implements Action {
-	type = ActionTypes.LOAD_SUCCESS;
-
-	constructor(public payload: Page) { };
-}
-
-export class LoadingPagesFailureAction implements Action {
-	type = ActionTypes.LOAD_FAILURE;
-
 	constructor(public payload: any) { };
 }
 
+
+export class UpdatePageAction implements Action {
+	type = ActionTypes.UPDATE;
+	constructor(public payload: {pageId: string, page: Page}) { };
+}
+
+
 export type Actions
-	= LoadPagesAction
-	| LoadPagesSuccessAction
-	| LoadingPagesFailureAction
+	= SelectPagesAction
+	| LoadPagesAction
+	| UpdatePageAction

@@ -20,6 +20,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AutocompleteControlService } from './../../../services/autocomplete-control.service';
 import { AutocompleteQuestion } from './../question-models/autocompleteQuestion';
 
+import { ViewportRuler } from './../../../core/overlay/position/viewport-ruler';
 
 import { TestScheduler, Subject } from 'rxjs/Rx';
 
@@ -45,7 +46,21 @@ describe('DynamicFormQuestionAutocompleteComponent', () => {
 				{
 					provide: OverlayContainer, useFactory: () => {
 						overlayContainerElement = document.createElement('div');
-						return { getContainerElement: () => overlayContainerElement };
+						overlayContainerElement.className = 'main active';
+						// add fixed positioning to match real overlay container styles
+						overlayContainerElement.style.position = 'fixed';
+						overlayContainerElement.style.top = '0';
+						overlayContainerElement.style.left = '0';
+						document.body.appendChild(overlayContainerElement);
+
+						// remove body padding to keep consistent cross-browser
+						document.body.style.padding = '0';
+						document.body.style.margin = '0';
+
+						return {
+							updateContainerlocation: () => null,
+							getContainerElement: () => overlayContainerElement
+						};
 					}
 				},
 				{
@@ -53,7 +68,8 @@ describe('DynamicFormQuestionAutocompleteComponent', () => {
 						return dir = { value: 'ltr' };
 					}
 				},
-				AutocompleteControlService
+				AutocompleteControlService,
+				{ provide: ViewportRuler, useClass: FakeViewportRuler }
 			]
 		});
 
@@ -387,7 +403,6 @@ describe('DynamicFormQuestionAutocompleteComponent', () => {
 	selector: 'basic-autocomplete',
 	template: `
 		<df-autocomplete
-			class="df-question"
 			[placeholder]="question.placeholder"
 			[type]="question.type"
 			[ariaLabel]="question.label"
@@ -397,12 +412,11 @@ describe('DynamicFormQuestionAutocompleteComponent', () => {
 			[isDisabled]="control.disabled"
 			[serviceUrl]="question.serviceUrl"
 			[formControl]="control">
-			</df-autocomplete>
-  `
+		</df-autocomplete>`
 })
 class BasicAutocomplete {
 	disabled: boolean = false;
-	question: AutocompleteQuestion = {
+	question: any = {
 		controlType: 'autocomplete',
 		key: 'occupation',
 		label: 'Occupation',
@@ -444,4 +458,24 @@ function dispatchEvent(eventName: string, element: HTMLElement): void {
 	let event = document.createEvent('Event');
 	event.initEvent(eventName, true, true);
 	element.dispatchEvent(event);
+}
+
+class FakeViewportRuler {
+
+	getContainerScrollPosition() {
+		return 0;
+	}
+	getViewportRect() {
+		return {
+			left: 0, top: 0, width: 1014, height: 686, bottom: 686, right: 1014
+		};
+	}
+
+	getViewportScrollPosition() {
+		return { top: 0, left: 0 };
+	}
+
+	getOffsetsUntillParent() {
+		return 0;
+	}
 }

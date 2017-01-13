@@ -4,15 +4,20 @@
 
 interface QuestionBase<T> {
 	value?: T;
+	id?: string;
 	key: string;
 	label: string;
 	required: boolean;
 	validators?: any[];
 	order: number;
 	controlType?: string;
+	helpId?: any;
 	timeline?: boolean;
 	trigger?: any;
 	disabled?: boolean;
+	status?: string;
+	control?: any;
+	uiOptions?: any;
 }
 
 /**

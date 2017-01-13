@@ -1,0 +1,30 @@
+@import "./../../../../styles/settings/globals";
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/tools/functions";
+@import "./../../../../styles/settings/typography";
+@import "./../../../../styles/tools/responsive";
+@import "./../../../../styles/tools/typography";
+
+:host,
+timeline {
+	@include flex(1 1 3rem);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 3rem;
+	min-height: 100vh;
+	height: 100%;
+	.navbg {
+		position: absolute;
+		width: 3rem;
+		height: 100%;
+		z-index: -3;
+		-webkit-transition: all ease 0.4s;
+		transition: all ease 0.4s;
+		left: -3rem;
+		@include mq(small) {
+			background-color:$color-dark-grey;
+			left:0rem;
+		}
+	}
+}

@@ -12,6 +12,12 @@ import { TextBox } from './../question-models/textInputQuestion';
 
 import { QuestionTriggerService } from './../../../services/question-trigger.service';
 
+import { StoreModule, Store, State, ActionReducer } from '@ngrx/store';
+import { StoreDevtools, StoreDevtoolsModule, LiftedState, StoreDevtoolsConfig } from '@ngrx/store-devtools';
+
+import * as reducer from './../../../stores/reducer';
+import { TEST_PROVIDERS } from './../../../../testing/constants/default-test-providers';
+
 
 describe('DynamicFormQuestionComponent', () => {
 	let mojsInit = new MojsInit();
@@ -30,9 +36,11 @@ describe('DynamicFormQuestionComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			imports: [DynamicFormModule],
+			imports: [
+				DynamicFormModule,
+			],
 			declarations: [],
-			providers: [QuestionTriggerService]
+			providers: [...TEST_PROVIDERS]
 		}).compileComponents();
 	}));
 

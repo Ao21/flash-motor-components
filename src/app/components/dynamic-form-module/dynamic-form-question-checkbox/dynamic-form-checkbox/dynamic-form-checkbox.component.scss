@@ -1,0 +1,36 @@
+@import "./../../../../../styles/settings/colours";
+@import "./../../../../../styles/settings/globals";
+@import "./../../../../../styles/settings/typography";
+@import './../../../../../styles/tools/functions';
+@import './../../../../../styles/tools/typography';
+@import "./../../../../../styles/objects/buttons";
+:host,
+df-checkbox {
+	flex: 1 1 auto;
+	margin-right: size(medium);
+	min-height: 3rem;
+	&:last-child {
+		margin-right: 0;
+	}
+	.df-checkbox-label {
+		@include o-button;
+		@include font-size(regular);
+		padding: 0;
+		margin-bottom: 0;
+		border: 1px solid;
+		border-color: $color-med-dark-grey;
+		border-radius: 2px;
+		color: $color-med-dark-grey;
+		height: 3rem;
+		line-height: 46px;
+		text-transform: none;
+		font-weight: 200;
+	}
+	&.is-checked {
+		.df-checkbox-label {
+			border: 2px solid;
+			border-color: palette(primary);
+			color: $color-dark;
+		}
+	}
+}

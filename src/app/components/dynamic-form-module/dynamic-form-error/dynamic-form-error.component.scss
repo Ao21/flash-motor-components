@@ -1,0 +1,19 @@
+@import "./../../../../styles/settings/colours";
+@import "./../../../../styles/settings/globals";
+@import "./../../../../styles/settings/typography";
+@import './../../../../styles/tools/functions';
+@import './../../../../styles/tools/typography';
+
+:host,
+df-dynamic-form-error {
+    position: absolute;
+    left: 1.5rem;
+    bottom: 15px;
+
+    p {
+        float: left;
+        margin: size(mini) 0 0;
+        @include font-size(tiny);
+        color: $color-red-warning;
+    }
+}

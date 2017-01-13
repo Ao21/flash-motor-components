@@ -1,7 +1,7 @@
 import { Component, Optional, Output, EventEmitter, HostBinding, HostListener, OnInit, Input, ViewChild, ViewChildren, Renderer, AfterViewInit, AfterContentInit, OnDestroy, ElementRef, ContentChildren, QueryList, forwardRef } from '@angular/core';
 import { NgControl, NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { DynamicFormQuestionOptionComponent } from './../dynamic-form-question-option/dynamic-form-question-option.component';
-import { transformPanel } from './dynamic-form-question-autocomplete.animation';
+import { transformPanel, transformTrigger } from './dynamic-form-question-autocomplete.animation';
 import { AutocompleteControlService } from './../../../services/autocomplete-control.service';
 import { Subscription } from 'rxjs/Subscription';
 import { coerceBooleanProperty } from './../../../core/core';
@@ -55,47 +55,47 @@ export const DF_AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR: any = {
 	templateUrl: './dynamic-form-question-autocomplete.component.html',
 	styleUrls: ['./dynamic-form-question-autocomplete.component.scss'],
 	providers: [DF_AUTOCOMPLETE_CONTROL_VALUE_ACCESSOR, AutocompleteControlService],
-	animations: [transformPanel]
+	animations: [transformPanel, transformTrigger]
 })
-	
+
 export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterViewInit, ControlValueAccessor, OnDestroy {
-	
+
 	// The Viewvalue of the Input Field
 	private _viewValue: string;
-	
+
 	// Value of the Autocomplete
 	private _value: { id: string, text: string } = { id: null, text: null };
-	
+
 	// Whether the overlay panel is open
 	private _panelOpen = false;
-	
+
 	// What option is currently selected - Not really used in autocomplete
 	private _selected: DynamicFormQuestionOptionComponent;
-	
+
 	/** Subscriptions to option events. */
 	private _subscriptions: Subscription[] = [];
-	
+
 	/** Subscription to changes in the option list. */
 	private _changeSubscription: Subscription;
-	
+
 	/** Subscription to tab events while overlay is focused. */
 	private _tabSubscription: Subscription;
-	
+
 	/** Whether filling out the select is required in the form.  */
 	private _required: boolean = false;
-	
+
 	/** Whether the select is disabled.  */
 	private _disabled: boolean = false;
-	
+
 	/** Manages keyboard events for options in the panel. */
 	_keyManager: ListKeyManager;
-	
+
 	/** The IDs of child options to be passed to the aria-owns attribute. */
 	private _optionIds: string = '';
 
 	/** View -> model callback called when value changes */
 	private _onChangeCallback: (_: any) => void = noop;
-	
+
 	/** View -> model callback called when select has been touched */
 	private _onTouchedCallback: () => void = noop;
 
@@ -132,13 +132,15 @@ export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterVi
 
 	// The type of autocomplete - search | options | all	
 	@Input() type: string;
-	
+
 	// If autocomplete type is equal to options - these are the options from the question model
 	@Input() items: AutocompleteItem[];
-	
+
 	// The ServiceURL the autocomplete will connect to if set to options | all
 	@Input() serviceUrl: string;
 	@Input() placeholder: string;
+
+	@Input() link: string;
 
 	// The Control for Autocomplete Question
 	@Input() formControl: FormControl;
@@ -175,7 +177,7 @@ export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterVi
 
 	// The Internal Control for the Input Field	
 	public queryControl: FormControl = new FormControl();
-	
+
 	get panelOpen(): boolean {
 		return this._panelOpen;
 	}
@@ -203,13 +205,17 @@ export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterVi
 
 	@ViewChild('trigger') trigger: ElementRef;
 
+	@HostBinding('class.df-autocomplete') get isAutocompleteClass() { return true; };
+	@HostBinding('class.df-question') get isQuestionClass() { return true; };
+
 	constructor(
 		private _element: ElementRef,
 		private _renderer: Renderer,
 		private autoCompleteService: AutocompleteControlService,
 
 	) {
-		this._element.nativeElement.className = 'df-autocomplete df-question';
+		// this._renderer.setElementClass(this._element.nativeElement, 'df-autocomplete', true);
+		// this._renderer.setElementClass(this._element.nativeElement, 'df-question', true);
 	}
 
 
@@ -231,12 +237,9 @@ export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterVi
 		 */
 		this.queryControl.valueChanges.distinctUntilChanged()
 			.filter((next) => {
-				if (!next) {
-					return
-				}
 				// If input is empty close the panel and reset the controls value without an emit event
 				// to prevent a loop
-				if (next === '') {
+				if (!next || next === '') {
 					this._isReadyToOpen = false;
 					this.formControl.setValue('');
 					this.close();
@@ -246,12 +249,17 @@ export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterVi
 					this.formControl.setValue('', { emitEvent: false });
 					this._isReadyToOpen = true;
 				}
-				return next.length > 0;
+				return next && next.length > 0;
 			})
 			.debounceTime(500)
 			.subscribe((query) => {
 				if (query !== this._viewValue) {
-					this.autoCompleteService.get(query).subscribe(next => {
+					let searchQuery: any = { query: query };
+					if (this.link) {
+						searchQuery.link = this.formControl.parent.controls[this.link] || this.formControl.parent;
+					}
+
+					this.autoCompleteService.get(searchQuery).subscribe(next => {
 						if (next.length > 0 && this._isReadyToOpen) {
 							this.autocompleteItems = next;
 							this.open();
@@ -266,6 +274,7 @@ export class DynamicFormQuestionAutocompleteComponent implements OnInit, AfterVi
 		if (this.value) {
 			this.queryControl.setValue(this.value.text, { emitEvent: false });
 		}
+
 		this.formControl.valueChanges.subscribe((next) => {
 			this.value = next;
 		})

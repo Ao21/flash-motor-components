@@ -378,6 +378,10 @@ export class SliderRenderer {
 
 	private activeItemIdx: number = 0;
 
+	defaultItemDimensions = 48;
+	defaultItemMargin = 0;
+
+
 	public sliderMovementUpdate: Subject<any> = new Subject();
 
 	constructor(
@@ -439,6 +443,9 @@ export class SliderRenderer {
 	}
 
 	getItemPosition(index) {
+		if (this._itemDimension.width === 0) {
+			return (-index * (this.defaultItemDimensions + (this.defaultItemMargin / 2)));
+		}
 		return (-index * (this._itemDimension.width + (this._itemDimension.margin / 2)));
 	}
 

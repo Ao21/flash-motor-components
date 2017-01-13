@@ -7,7 +7,9 @@ export const ActionTypes = {
 	ADD_PAGE_FAILURE: type('[Stage] Add Stage Failure'),
 	LOAD: type('[Stage] Load Stages'),
 	LOAD_SUCCESS: type('[Stage] Load Stages Success'),
-	LOAD_FAILURE: type('[Stage] Load Stage Failure')
+	LOAD_FAILURE: type('[Stage] Load Stage Failure'),
+	SET_STAGE_ACTIVE: type('[Stage] Set Stage Active'),
+	SET_NEXT_STAGE_ACTIVE: type('[Stage] Set Next Stage Active')
 };
 
 
@@ -32,8 +34,21 @@ export class LoadFailureAction implements Action {
 	constructor(public payload: any) { };
 }
 
+export class SetSectionActiveAction implements Action {
+	type = ActionTypes.SET_STAGE_ACTIVE;
+	constructor(public payload: string) { };
+}
+
+export class SetNextSectionActive implements Action {
+	type = ActionTypes.SET_NEXT_STAGE_ACTIVE;
+	constructor() { };
+}
+
+
 
 export type Actions
 	= LoadAction
 	| LoadFailureAction
 	| LoadSuccessAction
+	| SetSectionActiveAction
+	| SetNextSectionActive

@@ -341,6 +341,7 @@ describe('DynamicFormQuestionNumberSliderComponent', () => {
 			});
 		})
 
+
 		it('should set the tabindexes to -1 when control is disabled programmatically', () => {
 			fixture.whenStable().then(() => {
 				fixture.componentInstance.control.disable();

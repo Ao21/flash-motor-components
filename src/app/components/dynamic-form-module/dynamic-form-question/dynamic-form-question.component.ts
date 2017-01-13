@@ -1,8 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, Input, ViewEncapsulation, Output, EventEmitter, HostBinding } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { coerceBooleanProperty } from './../../../core/coersion/boolean-property';
 import { QuestionTriggerService } from './../../../services/question-trigger.service';
+import { HelpCenterService } from './../../../services/help-center.service';
 import { QuestionBase } from './../question-models/questionBase';
+import { SectionControlService } from './../../../services/section-control.service';
+
 
 /**
  *	Dynamic Form Question
@@ -20,11 +23,13 @@ import { QuestionBase } from './../question-models/questionBase';
 
 @Component({
 	selector: 'df-question',
+	encapsulation: ViewEncapsulation.None,
 	templateUrl: './dynamic-form-question.component.html',
 	styleUrls: ['./dynamic-form-question.component.scss']
 })
 export class DynamicFormQuestionComponent implements OnInit {
 
+	@Input() section: SectionObject;	
 	// Emit update to timeline updates on status changes
 	@Output() onStatusUpdate: EventEmitter<TimelineItemUpdate> = new EventEmitter();
 
@@ -73,13 +78,20 @@ export class DynamicFormQuestionComponent implements OnInit {
 	}
 
 	constructor(
-		private questionTriggerService: QuestionTriggerService
+		private changeRef: ChangeDetectorRef,
+		private helpCenterService: HelpCenterService,
+		private questionTriggerService: QuestionTriggerService,
+		public sectionControlService: SectionControlService
 	) { }
 
 
 	ngOnInit() {
 		// Get's the questions individual control from the form group
 		this.control = this.form.controls[this.question.key];
+
+		if (this.control.value && this.control.value !== '') {
+			this.control.markAsDirty({ onlySelf: true });
+		}
 
 		this.control.valueChanges.subscribe((next) => {
 			// console.log(next);
@@ -97,8 +109,16 @@ export class DynamicFormQuestionComponent implements OnInit {
 
 		if (this.question.trigger) {
 			this.questionTriggerService.getFormTrigger(this.question.trigger)(this);
+			this.changeRef.detectChanges();
 		}
 
+	}
+
+	handleTimelineEvent(event) {
+		switch (event) {
+			case 'OPEN_HELP':
+				this.helpCenterService.selectHelpItem(this.question.helpId);
+		}
 	}
 
 	// Emit Status update changes	

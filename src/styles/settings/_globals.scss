@@ -19,3 +19,9 @@ $base-shadow : 0 1px 1px rgba(black, 0.5);
 $base-transition  : all 0.3s ease 0s !global;
 
 $base-images-path : "assets/img" !global;
+
+$timeline-width: 48px;
+$header-height: 7rem;
+
+@import "../../../node_modules/bourbon/app/assets/stylesheets/_bourbon.scss";
+@import "../../../node_modules/bourbon-neat/core/_neat.scss"

@@ -12,6 +12,16 @@ import { QuestionControlService } from './../../../services/question-control.ser
 import { QuestionTriggerService } from './../../../services/question-trigger.service';
 import { TimelineControlService } from './../../../services/timeline-control.service';
 
+
+import { StoreModule, Store, State, ActionReducer } from '@ngrx/store';
+import { StoreDevtools, StoreDevtoolsModule, LiftedState, StoreDevtoolsConfig } from '@ngrx/store-devtools';
+
+import * as reducer from './../../../stores/reducer';
+
+
+import { TEST_PROVIDERS } from './../../../../testing/constants/default-test-providers';
+
+
 describe('DynamicFormComponent', () => {
 	let mojsInit = new MojsInit();
 	let tcService: TimelineControlService;
@@ -23,11 +33,12 @@ describe('DynamicFormComponent', () => {
 		TestBed.configureTestingModule({
 			imports: [
 				HttpModule,
-				DynamicFormModule
+				DynamicFormModule,
+				StoreModule.provideStore(reducer.testingReducer),
+				StoreDevtoolsModule.instrumentStore(),
 			],
 			providers: [
-				TimelineControlService,
-				QuestionTriggerService
+				...TEST_PROVIDERS
 			]
 		}).compileComponents();
 

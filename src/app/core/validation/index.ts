@@ -6,6 +6,8 @@ export * from './date-validator';
 import { validDateValidate } from './date-validator';
 import { validOverEighteenValidate } from './over-eighteen-validator';
 import { validPhoneNumberValidate } from './phone-number-validator';
+import { validLastThreeYearsValidate } from './last-three-years.validator';
+
 
 export class CustomValidators {
 	static validDateValidate() {
@@ -16,5 +18,8 @@ export class CustomValidators {
 	}
 	static validPhoneNumberValidate() {
 		return validPhoneNumberValidate;
+	}
+	static validLastThreeYearsValidate() {
+		return validLastThreeYearsValidate;
 	}
 }

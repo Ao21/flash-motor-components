@@ -17,7 +17,7 @@ export class RadioButtonComponent implements OnInit {
 			key: 'radioQuestion',
 			label: 'Radio Question',
 			type: 'radio',
-			options: ['Yes', 'No'],
+			options: [{text: 'Yes', value: 'Yes'}, {text: 'No', value: 'No'}],
 			required: true,
 			order: 2,
 			validators: []
@@ -26,7 +26,7 @@ export class RadioButtonComponent implements OnInit {
 			key: 'radioQuestion2',
 			label: 'Disabled Radio Question',
 			type: 'radio',
-			options: ['Yes', 'No'],
+			options: [{text: 'Yes', value: 'Yes'}, {text: 'No', value: 'No'}],
 			required: true,
 			disabled: true,
 			order: 2,

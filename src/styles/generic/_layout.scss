@@ -1,0 +1,36 @@
+.outer-container {
+	@include flex(1 1 auto);
+	@include display(flex);
+	position: relative;
+    margin: 0 auto;
+    /* position: absolute; */
+	overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+
+	@include mq(small) {max-width: 100vw;};
+	@include mq(medium) {max-width: 752px;};
+	@include mq(large) {max-width: 1024px;}
+	@include mq(wide) {max-width: 1168px;}
+
+	&.isExtended {
+		@include mq(small) {max-width: 100vw;};
+		@include mq(medium) {max-width: 752px;};
+		@include mq(large) {max-width: 1024px;}
+		@include mq(wide) {max-width: 1168px;}
+	}
+}
+
+mf-root {
+	@include display(flex);
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+	overflow: auto;
+}
+
+.page__content > * {
+	@include display(flex);
+	@include flex-direction(column);
+	height: 100%;
+}

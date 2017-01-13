@@ -19,7 +19,7 @@ export class LoadProductConfigAction implements Action {
 export class LoadProductConfigSuccessAction implements Action {
 	type = ActionTypes.LOAD_SUCCESS;
 
-	constructor(public payload: ProductConfig) { };
+	constructor(public payload: {entities: {pages: any, stages: any, sections: any, questions: any }}) { };
 }
 
 export class LoadingProductConfigFailureAction implements Action {

@@ -29,6 +29,7 @@ let defaultState = new OverlayState();
 export class Overlay {
 
 	private state: any;
+	private delay: number;
 
 	constructor(private _overlayContainer: OverlayContainer,
 		private _componentFactoryResolver: ComponentFactoryResolver,
@@ -41,11 +42,12 @@ export class Overlay {
 	 */
 	create(state: OverlayState = defaultState): OverlayRef {
 		this.state = state;
-		if (this.state.container) {
-			this._overlayContainer.setContainerLocation(this.state.container);
+		if (this.state.delay) {
+			this.delay = this.state.delay;
 		}
 		return this._createOverlayRef(this._createPaneElement(), state);
 	}
+
 
 	/**
 	 * Returns a position builder that can be used, via fluent API,
@@ -53,6 +55,18 @@ export class Overlay {
 	 */
 	position() {
 		return this._positionBuilder;
+	}
+
+
+	updateContainer(element?) {
+		if (element){
+			this.state.container = document.querySelector(element);
+		}
+
+		let containerElement = this._overlayContainer.getContainerElement();
+		if (this.state.container && containerElement) {
+			this._overlayContainer.updateContainerlocation(this.state.container);
+		}
 	}
 
 	/**
@@ -64,7 +78,14 @@ export class Overlay {
 		pane.id = `mf-overlay-${nextUniqueId++}`;
 		pane.classList.add('mf-overlay-pane');
 
-		this._overlayContainer.getContainerElement().appendChild(pane);
+
+		let containerElement = this._overlayContainer.getContainerElement();
+
+		if (this.state.container && containerElement) {
+			this._overlayContainer.updateContainerlocation(this.state.container);
+		}
+
+		containerElement.appendChild(pane);
 
 		return pane;
 	}

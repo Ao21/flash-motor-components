@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DynamicFormComponent } from '././dynamic-form-component/dynamic-form.component';
 import { DynamicFormQuestionComponent } from './dynamic-form-question/dynamic-form-question.component';
-import { DynamicFormTimelineItemComponent } from './dynamic-form-timeline-item/dynamic-form-timeline-item.component';
 import { DynamicFormQuestionCounterComponent } from './dynamic-form-question-counter/dynamic-form-question-counter.component';
 import { DynamicFormQuestionDateComponent } from './dynamic-form-question-date/dynamic-form-question-date.component';
 import { DynamicFormDropdownModule } from './dynamic-form-question-dropdown/dynamic-form-question-dropdown.module';
@@ -11,7 +10,12 @@ import { DynamicFormOptionModule } from './dynamic-form-question-option/dynamic-
 import { DynamicFormQuestionAutocompleteModule } from './dynamic-form-question-autocomplete/dynamic-form-question-autocomplete.module';
 import { DynamicFormQuestionNumberSliderModule } from './dynamic-form-question-number-slider/dynamic-form-question-number-slider.module';
 import { DynamicFormQuestionRadioModule } from './dynamic-form-question-radio-module/dynamic-form-question-radio.module';
-import { DynamicFormDirectivesModule} from './directives/dynamic-form-directives';
+import { DynamicFormDirectivesModule } from './directives/dynamic-form-directives';
+import { DynamicFormQuestionCheckboxModule } from './dynamic-form-question-checkbox/dynamic-form-checkbox.module';
+import { DynamicFormErrorComponent } from './dynamic-form-error/dynamic-form-error.component';
+
+import { TimelineItemModule } from './../navigation/timeline/timeline-item/timeline-item.module';
+
 @NgModule({
 	imports: [
 		CommonModule,
@@ -21,21 +25,27 @@ import { DynamicFormDirectivesModule} from './directives/dynamic-form-directives
 		DynamicFormQuestionAutocompleteModule,
 		DynamicFormQuestionNumberSliderModule,
 		DynamicFormQuestionRadioModule,
-		DynamicFormDirectivesModule
+		DynamicFormDirectivesModule,
+		DynamicFormQuestionCheckboxModule,
+		TimelineItemModule
 	],
 	declarations: [
 		DynamicFormComponent,
 		DynamicFormQuestionComponent,
-		DynamicFormTimelineItemComponent,
 		DynamicFormQuestionCounterComponent,
 		DynamicFormQuestionDateComponent,
+		DynamicFormErrorComponent
 	],
 	exports: [
 		DynamicFormComponent,
 		DynamicFormQuestionComponent,
-		DynamicFormTimelineItemComponent,
+		DynamicFormQuestionAutocompleteModule,
+		DynamicFormOptionModule,
 		DynamicFormQuestionCounterComponent,
 		DynamicFormQuestionDateComponent,
+		DynamicFormErrorComponent,
+		DynamicFormQuestionRadioModule,
+		DynamicFormDirectivesModule
 	]
 })
 export class DynamicFormModule { }

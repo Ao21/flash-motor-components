@@ -8,9 +8,12 @@
   font-size: $fs;
   font-size: rem($fs);
 
-  @if $line-height == true {
-    line-height: ceil($fs / $base-line-height) * ($base-line-height / $fs);
-  }
+   @if map-has-key($line-heights, $size) {
+      line-height: get-line-height($size)
+    }
+    @else {
+      line-height: ceil($fs / $base-line-height) * ($base-line-height / $fs);
+    }
 }
 
 @mixin font-weight($weight: medium) {

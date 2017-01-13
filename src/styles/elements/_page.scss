@@ -20,7 +20,7 @@ html {
   @include font-size(regular); // [1]
   @include font-smoothing;     // [2]
   text-size-adjust: 100%;      // [3]
-  overflow-y: scroll;          // [4]
+  overflow-y: auto;          // [4]
   min-height: 100%;            // [5]
 
   ::selection {

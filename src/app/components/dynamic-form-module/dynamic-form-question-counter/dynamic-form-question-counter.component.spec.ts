@@ -37,21 +37,21 @@ describe('DynamicFormQuestionCounterComponent', () => {
 
 			it('should be able to create a counter', () => {
 				expect(element.classList.contains('df-question-counter')).toBeTruthy();
-			})
+			});
 
 			it('should have a minus control', () => {
 				expect(element.querySelector('.df-question-counter__minus')).not.toBeNull();
-			})
+			});
 
 			it('should have a plus control', () => {
 				expect(element.querySelector('.df-question-counter__plus')).not.toBeNull();
-			})
+			});
 
 			it('should have a display value', () => {
 				expect(element.querySelector('.df-question-counter__counter')).not.toBeNull();
-			})
+			});
 
-		})
+		});
 
 		describe('default logic without min max', () => {
 			let component: DynamicFormQuestionCounterComponent;
@@ -66,7 +66,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 
 			it('should have a starting value of 0', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt zero');
-			})
+			});
 
 			it('should increase the counter when plus is selected', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt zero');
@@ -75,7 +75,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('1', 'Counter Default Value wasnt zero');
 
-			})
+			});
 
 			it('should decrease the counter when minus is selected', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt zero');
@@ -83,7 +83,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', minus);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('-1', 'Counter Default Value wasnt zero');
-			})
+			});
 
 			it('should update the counter component when minus is selected', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt zero');
@@ -91,7 +91,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', minus);
 				fixture.detectChanges();
 				expect(component.value).toBe(-1);
-			})
+			});
 
 			it('should update the counter component when plus is selected', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt zero');
@@ -99,10 +99,10 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', plus);
 				fixture.detectChanges();
 				expect(component.value).toBe(1);
-			})
+			});
 
 
-		})
+		});
 
 		describe('default counter min/max logic', () => {
 			let component: DynamicFormQuestionCounterComponent;
@@ -119,7 +119,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 
 			it('should have a starting value of 3', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('3', 'Counter Default Value wasnt 3');
-			})
+			});
 
 			it('should not be able to go to less than 3', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('3', 'Counter Default Value wasnt 3');
@@ -127,7 +127,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', minus);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('3', 'Counter Default Value wasnt 3');
-			})
+			});
 
 			it('should not be able to go to higher than 7', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('3', 'Counter Default Value wasnt 3');
@@ -141,10 +141,10 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', plus);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('7', 'Counter Default Value wasnt 3');
-			})
+			});
 
 
-		})
+		});
 
 		describe('negative counter min/max logic', () => {
 			let component: DynamicFormQuestionCounterComponent;
@@ -161,7 +161,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 
 			it('should have a starting value of -2', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('-2', 'Counter Default Value wasnt -2');
-			})
+			});
 
 			it('should not be able to go to less than -2', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('-2', 'Counter Default Value wasnt -2');
@@ -169,7 +169,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', minus);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('-2', 'Counter Default Value wasnt -2');
-			})
+			});
 
 			it('should not be able to go to higher than 0', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('-2', 'Counter Default Value wasnt 0');
@@ -180,11 +180,11 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', plus);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt 0');
-			})
+			});
 
 
-		})
-	})
+		});
+	});
 
 	describe('form integration', () => {
 
@@ -218,18 +218,18 @@ describe('DynamicFormQuestionCounterComponent', () => {
 
 			it('should set the control to zero by default', () => {
 				expect(component.control.value).toBe(0, 'Control should be defaulted to zero');
-			})
+			});
 
 			it('should have a valid control on start', () => {
-				expect(component.control.valid).toBeTruthy('Control was not valid')
-			})
+				expect(component.control.valid).toBeTruthy('Control was not valid');
+			});
 
 
 			it('should be able to set the view value from the form', () => {
 				component.control.setValue(1);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('1', 'Counter Default Value wasnt 1');
-			})
+			});
 
 			it('should update the form when the counter is increased', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt 0');
@@ -237,7 +237,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', plus);
 				fixture.detectChanges();
 				expect(component.control.value).toBe(1, 'Control value wasnt 1');
-			})
+			});
 
 			it('should update the form when the counter is decreased', () => {
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('0', 'Counter Default Value wasnt 0');
@@ -245,7 +245,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				dispatchEvent('click', minus);
 				fixture.detectChanges();
 				expect(component.control.value).toBe(-1, 'Control value wasnt -1');
-			})
+			});
 
 			it('should set the counter control to be touched after the counter is increased', () => {
 				expect(fixture.componentInstance.control.touched).toEqual(false, `Expected the control to start off as untouched.`);
@@ -255,10 +255,10 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				expect(fixture.componentInstance.control.touched).toEqual(false, `Expected the control to start off as untouched.`);
 				dispatchEvent('blur', minus);
 				fixture.detectChanges();
-				expect(fixture.componentInstance.control.touched).toBeTruthy('Expected Control to be touched after blur')
-			})
+				expect(fixture.componentInstance.control.touched).toBeTruthy('Expected Control to be touched after blur');
+			});
 
-		})
+		});
 
 		describe('of min max counter', () => {
 			let component: MinMaxCounter;
@@ -281,14 +281,14 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				component.control.setValue(3);
 				fixture.detectChanges();
 				expect(element.querySelector('.df-question-counter__counter').textContent).toBe('3', 'Counter Default Value wasnt 3');
-			})
+			});
 
-		})
-
-
+		});
 
 
-	})
+
+
+	});
 	describe('disabled behaviour', () => {
 
 		beforeEach(async(() => {
@@ -324,8 +324,8 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				let minus = element.querySelector('.df-question-counter__minus');
 				expect(plus.getAttribute('disabled')).toBeDefined();
 				expect(minus.getAttribute('disabled')).toBeDefined();
-			})
-		})
+			});
+		});
 
 		it('should be able to be disabled from a value', () => {
 			fixture.whenStable().then(() => {
@@ -335,10 +335,10 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				let minus = element.querySelector('.df-question-counter__minus');
 				expect(plus.getAttribute('disabled')).toBeDefined();
 				expect(minus.getAttribute('disabled')).toBeDefined();
-			})
-		})
+			});
+		});
 
-	})
+	});
 	describe('accessibility', () => {
 		beforeEach(async(() => {
 			TestBed.configureTestingModule({
@@ -369,16 +369,15 @@ describe('DynamicFormQuestionCounterComponent', () => {
 		it('should have input sex to tabindex 0', () => {
 			fixture.whenStable().then(() => {
 				let counter = element.querySelector('df-counter');
-				expect(counter.getAttribute('tabindex')).toEqual('0','tabindex should be zero');	
-			})
-			
-		})
+				expect(counter.getAttribute('tabindex')).toEqual('0', 'tabindex should be zero');
+			});
+		});
 
 		it('should have an aria label', () => {
 			let counter = element.querySelector('df-counter');
 			expect(counter.getAttribute('aria-label')).toBe('How many drivers?', 'aria label should be How Many Drivers');
-			expect(counter.getAttribute('aria-labelledby')).toEqual('amountOfDrivers','aria labelledby should be amountOfDrivers');
-		})
+			expect(counter.getAttribute('aria-labelledby')).toEqual('amountOfDrivers', 'aria labelledby should be amountOfDrivers');
+		});
 
 
 		it('should set aria-disabled for autocompletes that are disabled', () => {
@@ -391,32 +390,32 @@ describe('DynamicFormQuestionCounterComponent', () => {
 				fixture.detectChanges();
 				expect(counter.getAttribute('aria-disabled')).toEqual('false', 'aria-disabled should be false');
 			});
-		})
+		});
 
 		it('should have a default aria-valuenow attribute', () => {
 			let counter = element.querySelector('df-counter');
 			expect(counter.getAttribute('aria-valuenow')).toEqual('2', 'aria value should be 2');
-		})
+		});
 
 		it('should update the aria-valuenow attribute', () => {
 			component.control.setValue(3);
 			fixture.detectChanges();
 			let counter = element.querySelector('df-counter');
 			expect(counter.getAttribute('aria-valuenow')).toEqual('3', 'aria value should be 3');
-		})
+		});
 
 		it('should have an aria-valuemin attribute', () => {
 			let counter = element.querySelector('df-counter');
 			expect(counter.getAttribute('aria-valuemin')).toEqual('2', 'aria value min should be 2');
-		})
+		});
 
 		it('should have an aria-valuemax attribute', () => {
 			let counter = element.querySelector('df-counter');
 			expect(counter.getAttribute('aria-valuemax')).toEqual('7', 'aria value max should be 7');
-		})
+		});
 
 
-	})
+	});
 });
 
 
@@ -436,7 +435,7 @@ describe('DynamicFormQuestionCounterComponent', () => {
 		[max]="question.max"
 		[id]="question.key">
 		</df-counter>
-  `
+ `
 })
 class BasicCounter {
 	disabled: boolean = false;
@@ -445,7 +444,7 @@ class BasicCounter {
 		label: 'How many drivers?',
 		type: 'counter',
 		required: true,
-	})
+	});
 
 	form = new FormGroup({
 		amountOfDrivers: new FormControl()
@@ -476,7 +475,7 @@ class BasicCounter {
 		[max]="question.max"
 		[id]="question.key">
 		</df-counter>
-  `
+ `
 })
 class MinMaxCounter {
 	disabled: boolean = false;
@@ -487,7 +486,7 @@ class MinMaxCounter {
 		min: 2,
 		max: 7,
 		required: true,
-	})
+	});
 
 	form = new FormGroup({
 		amountOfDrivers: new FormControl()

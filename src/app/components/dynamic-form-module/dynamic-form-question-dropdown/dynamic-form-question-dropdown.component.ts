@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, HostListener, HostBinding, Optional, forwardRef, Renderer, Output, EventEmitter, ViewChild, QueryList, ElementRef, OnDestroy, ContentChildren, AfterContentInit } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl, FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input, OnInit, HostListener, HostBinding, ChangeDetectorRef, Optional, forwardRef, Renderer, Output, EventEmitter, ViewChild, QueryList, ElementRef, OnDestroy, ContentChildren, AfterContentInit } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl, NgControl, FormBuilder } from '@angular/forms';
 import { ENTER, SPACE } from './../../../core/keyboard/keycodes';
 import { coerceBooleanProperty } from './../../../core/core';
 
@@ -7,7 +7,7 @@ import { DynamicFormQuestionOptionComponent } from './../dynamic-form-question-o
 import { Subscription } from 'rxjs/Subscription';
 
 import { ListKeyManager } from './../../../core/a11y/list-key-manager';
-import { transformPanel } from './dynamic-form-question-dropdown.animations';
+import { transformPanel, transformTrigger } from './dynamic-form-question-dropdown.animations';
 import { Dir } from './../../../core/rtl/dir';
 
 const noop = () => { };
@@ -48,39 +48,39 @@ export const DF_DROPDOWN_CONTROL_VALUE_ACCESSOR: any = {
 	templateUrl: './dynamic-form-question-dropdown.component.html',
 	styleUrls: ['./dynamic-form-question-dropdown.component.scss'],
 	providers: [DF_DROPDOWN_CONTROL_VALUE_ACCESSOR],
-	animations: [transformPanel]
+	animations: [transformTrigger, transformPanel ]
 })
 export class DynamicFormQuestionDropdownComponent implements OnInit, AfterContentInit, OnDestroy, ControlValueAccessor {
 
-	/** Tab is set to -1/0 depending on whether its disabled or not */	
+	/** Tab is set to -1/0 depending on whether its disabled or not */
 	@HostBinding('attr.tabindex') get tabIndex() {
 		return this.disabled ? -1 : 0;
 	}
 
-	/** aria role is set to listbox */	
+	/** aria role is set to listbox */
 	@HostBinding('attr.role') get role() {
 		return 'listbox';
 	}
 
-	/** Input fields disabled is based based on disabled */	
+	/** Input fields disabled is based based on disabled */
 	@HostBinding('attr.disabled') get isComponentDisabled() {
 		return this.disabled;
 	}
 
-	/** aria-invalid is set based on _required */	
+	/** aria-invalid is set based on _required */
 	@HostBinding('attr.aria-required') get isAriaRequired() {
 		return this.required;
-	}	
+	}
 
-	/** aria-invalid is set based on the controls state */	
+	/** aria-invalid is set based on the controls state */
 	@HostBinding('attr.aria-invalid') get isAriaValid() {
 		return !this.formControl.valid;
-	}	
+	}
 
-	/** aria-disabled is set based on the dropdowns disabled state */	
+	/** aria-disabled is set based on the dropdowns disabled state */
 	@HostBinding('attr.aria-disabled') get isAriaDisabled() {
 		return this.disabled;
-	}	
+	}
 
 	/** The placeholder of the dropdown */
 	@Input() placeholder: string;
@@ -97,7 +97,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 	/** Whether the dropdown is disabled or not */
 	private _disabled: boolean = false;
 
-	/** What option is currently selected */	
+	/** What option is currently selected */
 	private _selected: DynamicFormQuestionOptionComponent;
 
 	/** Subscriptions to option events. */
@@ -122,7 +122,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 	/** View -> model callback called when select has been touched */
 	private _onTouchedCallback: () => void = noop;
 
-	/** Current value of the dropdown */	
+	/** Current value of the dropdown */
 	get value(): any { return this._value; };
 	@Input() set value(v: any) {
 		if (v !== this._value) {
@@ -141,7 +141,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 	 * is aligned with with the top "start" of the origin by default (overlapping
 	 * the trigger completely). If the panel cannot fit below the trigger, it
 	 * will fall back to a position above the trigger.
-	 */	
+	 */
 	_positions = [{
 		originX: 'start',
 		originY: 'bottom',
@@ -178,7 +178,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 		this._required = coerceBooleanProperty(value);
 	}
 
-	/** Event Emitted on overlay opening */	
+	/** Event Emitted on overlay opening */
 	@Output() onOpen = new EventEmitter();
 
 	/** Event Emitted on overlay closing */
@@ -188,8 +188,9 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 	constructor(
 		private _element: ElementRef,
 		private _renderer: Renderer,
-		@Optional() private _dir: Dir, )
-	{ }
+		private _changeRef: ChangeDetectorRef,
+		@Optional() private _dir: Dir) {
+	}
 
 	ngOnInit() {
 
@@ -202,8 +203,10 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 			this._dropSubscriptions();
 			this._listenToOptions();
 		});
-		if (this.value !== '') {
-			this._reselectOption(this.value);
+		if (this.formControl.value !== '') {
+			setTimeout(() => {
+				this._reselectOption(this.formControl.value);
+			}, 0);
 		}
 	}
 
@@ -217,7 +220,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 		this.panelOpen ? this.close() : this.open();
 	}
 
-	/** Opens the overlay panel. */	
+	/** Opens the overlay panel. */
 	open(): void {
 		if (this.disabled) {
 			return;
@@ -328,7 +331,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 			return result === undefined ? (option === current ? index : undefined) : result;
 		}, undefined);
 	}
-	
+
 	private _reselectOption(value) {
 		if (!this.options) { console.log('no options'); return; }
 		this.options.forEach((option: DynamicFormQuestionOptionComponent) => {
@@ -338,7 +341,7 @@ export class DynamicFormQuestionDropdownComponent implements OnInit, AfterConten
 		});
 	}
 
-	/** Only set the dropdown to touched if tabbing when the panel is closed */	
+	/** Only set the dropdown to touched if tabbing when the panel is closed */
 	@HostListener('blur')
 	_onBlur() {
 		if (!this.panelOpen) {

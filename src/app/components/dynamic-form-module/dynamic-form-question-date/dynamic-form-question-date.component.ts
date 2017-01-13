@@ -50,7 +50,7 @@ export const DF_DATE_CONTROL_VALUE_ACCESSOR: any = {
 	styleUrls: ['./dynamic-form-question-date.component.scss']
 })
 export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAccessor {
-	
+
 	// The Group of Form controls including day, month, year
 	dateForm: FormGroup;
 	day: FormControl = new FormControl('', [validDayValidate]);
@@ -80,13 +80,13 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
 
 	/** onTouch function registered via registerOnTouch (ControlValueAccessor). */
 	private _onTouchedCallback: () => void = noop;
-	
+
 	/** The method to be called in order to update ngModel */
 	private _onChangeCallback: (_: any) => void = noop;
 
-	/** Sets the Id of the date field input */	
+	/** Sets the Id of the date field input */
 	@Input() id: string;
-	
+
 	// The main form control for the Date component
 	@Input() formControl: FormControl;
 
@@ -104,7 +104,7 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
 	@Input('isDisabled')
 	set isDisabled(v) {
 		this.disabled = v;
-	}	
+	}
 
 	private _disabled: boolean = false;
 
@@ -121,11 +121,11 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
 			this.month.enable();
 			this.year.enable();
 		}
-		
+
 	}
 
 	private _required: boolean;
-	
+
 	@Input()
 	get required() {
 		return this._required;
@@ -157,7 +157,8 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
 				this.value = derrivedDate;
 			} else {
 				this.isComplete = false;
-				this.value = null;
+				this.value = '';
+				this.dateForm.markAsPristine();
 			}
 		});
 	}
@@ -194,16 +195,16 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
 
 	}
 
-	/** Set the tab index when the form is disabled */	
+	/** Set the tab index when the form is disabled */
 	_getTabIndex() {
 		return this.disabled ? '-1' : '0';
-	}	
-	
+	}
+
 	/**
 	 * On Blur, Check if the current element is a date control, if not
 	 * trigger touched event
 	 */
-	@HostListener('blur',['$event'])
+	@HostListener('blur', ['$event'])
 	_onBlur(e) {
 		setTimeout(() => {
 			if (!document.activeElement.classList.contains('df-date-input')) {
@@ -216,7 +217,7 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
    	* Sets the Dates's value and updates each input component.
 	* Part of the ControlValueAccessor interface
    	* required to integrate with Angular's core forms API.
-   	*/	
+   	*/
 	writeValue(value: any) {
 		this.updateDate(value);
 		this._value = value;
@@ -235,7 +236,7 @@ export class DynamicFormQuestionDateComponent implements OnInit, ControlValueAcc
 	 * Saves a callback function to be invoked when the date is blurred
 	 * by the user. Part of the ControlValueAccessor interface required
 	 * to integrate with Angular's core forms API.
-	 */	
+	 */
 	registerOnTouched(fn: any) {
 		this._onTouchedCallback = fn;
 	}

@@ -1,0 +1,8 @@
+.help-drawer,
+help-drawer {
+	&__content{
+		p {
+			@include font-size(tiny);
+		}
+	}
+}

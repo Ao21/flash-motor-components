@@ -17,7 +17,7 @@
 		padding: 0 size(small);
 		justify-content: flex-start;
 		align-items: center;
-		height: 48px;
+		height: 3rem;
 		min-width: 100%;
 		cursor: pointer;
 		border: 1px solid $color-med-dark-grey;
@@ -30,10 +30,8 @@
 		flex: 1 1 auto;
 	}
 	&__arrow{
-		flex: 0 0 16px;
+		flex: 0 0 1rem;
 		position: relative;
 	}
-
-	
 }
 

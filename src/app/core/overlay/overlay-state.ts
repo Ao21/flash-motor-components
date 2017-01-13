@@ -25,7 +25,11 @@ export class OverlayState {
 	/** The direction of the text in the overlay panel. */
 	direction: LayoutDirection = 'ltr';
 
+	trigger: any;	
 	container: HTMLElement | any;
+
+	// If the overlay has an animation - how long it takes to deactive zindex	
+	delay: number;
 
 	// TODO(jelbourn): configuration still to add
 	// - focus trap

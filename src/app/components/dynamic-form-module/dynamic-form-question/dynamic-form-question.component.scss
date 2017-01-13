@@ -4,30 +4,87 @@
 @import './../../../../styles/tools/functions';
 @import './../../../../styles/tools/typography';
 @import "./../../../../styles/objects/flex";
-:host,
-.df-question {
+.df-question,
+df-question{
 	@include o-flex;
 	position: relative;
 	flex-wrap: nowrap;
 	float: left;
 	width: 100%;
+	&__icon-holder {
+		position: relative;
+		float: left;
+		width: 100%;
+	}
 	&__question-text p {
 		@include font-size(tiny);
 		line-height: 1.25rem;
 	}
-	&__input-text {}
-	df-timeline-item {}
 	.df-question-container {
 		position: relative;
 		flex: 1 1 auto;
-		margin-left: 48px;
+		margin-left: $timeline-width;
 		padding: 0 size(medium);
 	}
-	df-timeline-item+.df-question-container {
+	timeline-item+.df-question-container {
 		margin-left: 0
+	}
+	// Subform Settings 
+	mf-dynamic-form {
+		.df-dynamic-form {
+			@include display(flex);
+			flex-wrap: wrap;
+		}
+		&.alignment-none {
+			transform: translateX(-4.5rem);
+			width: calc(100% + 6rem);
+			
+			.form-row {
+				@include flex(1 1 100%);
+			}
+		}
+		&.alignment-half {
+			.df-question {
+				margin-bottom: size(small);
+			}
+			.form-row {
+				@include flex(1 1 45%);
+				margin-right: size(tiny);
+			}
+			.df-question-container {
+				margin-left: 0;
+				padding: 0;
+			}
+			.form-row:last-child {
+				.df-question {
+					margin-bottom: size(1.5);
+				}
+			}
+		}
 	}
 }
 
+.df-radio-group--vertical {
+	@include flex-direction(column);
+	df-radio {
+		margin-bottom: size(small);
+		width: 100%;
+		margin-right: 0;
+	}
+}
+
+.df-question__input-currency {
+	position: relative;
+	&:before {
+		position: absolute;
+		top: 1px;
+		left: 0;
+		content: "€";
+	}
+	input {
+		padding-left: 16px;
+	}
+}
 
 .df-question__input-text {
 	&.ng-valid.ng-touched {

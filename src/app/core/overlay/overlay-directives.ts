@@ -7,6 +7,7 @@ import {
 	ViewContainerRef,
 	Optional,
 	Input,
+	HostListener,
 	OnDestroy,
 	Output,
 	ElementRef
@@ -18,9 +19,161 @@ import { OverlayState } from './overlay-state';
 import { ConnectionPositionPair, ConnectedOverlayPositionChange } from './position/connected-position';
 import { PortalModule } from '../portal/portal-directives';
 import { ConnectedPositionStrategy } from './position/connected-position-strategy';
-import { Subscription } from 'rxjs/Subscription';
+
+import { GlobalPositionStrategy } from './position/global-position-strategy';
+import { Subscription, Observable } from 'rxjs/Rx';
 import { Dir, LayoutDirection } from '../rtl/dir';
 import { Utils } from './../utils/utils';
+
+import { coerceNumberProperty } from './../coersion/number-property';
+
+
+/**
+ *	Directive to facilitate declarative creation of a fullscreen Overlay using a GlobalPositionStrategy.
+ */
+
+@Directive({
+	selector: '[fullscreen-overlay]',
+	exportAs: 'globalOverlay'
+})
+export class FullscreenOverlayDirective implements OnDestroy {
+	private _overlayRef: OverlayRef;
+	private _templatePortal: TemplatePortal;
+	private _open = false;
+	private _positionSubscription: Subscription;
+
+	/** The width of the overlay panel. */
+	@Input() width: number | string;
+
+	/** The height of the overlay panel. */
+	@Input() height: number | string;
+
+	@Input() container: any;
+
+	_delay: number = 0;
+
+	@Input()
+	get delay() {
+		return this._delay;
+	}
+	set delay(v) {
+		this._delay = coerceNumberProperty(v);
+	}
+
+	sub: any;
+
+	@Input()
+	get open() {
+		return this._open;
+	}
+
+	set open(value: boolean) {
+		value ? this._attachOverlay() : this._detachOverlay();
+
+		if (!value) {
+			setTimeout(() => {
+				this._destroyOverlay();
+				this._overlayRef = null;
+			}, this.delay);
+		}
+		this._open = value;
+	}
+
+	constructor(
+		private _overlay: Overlay,
+		templateRef: TemplateRef<any>,
+		viewContainerRef: ViewContainerRef,
+		@Optional() private _dir: Dir) {
+		this._templatePortal = new TemplatePortal(templateRef, viewContainerRef);
+
+	}
+
+	get overlayRef(): OverlayRef {
+		return this._overlayRef;
+	}
+
+
+	/** TODO: internal */
+	ngOnDestroy() {
+		this._destroyOverlay();
+	}
+
+	/** Creates an overlay */
+	private _createOverlay() {
+		this._overlayRef = this._overlay.create(this._buildConfig());
+
+	}
+
+	/** Builds the overlay config based on the directive's inputs */
+	private _buildConfig(): OverlayState {
+		let overlayConfig = new OverlayState();
+
+		overlayConfig.delay = this.delay;
+		overlayConfig.width = '100%';
+		overlayConfig.height = '100%';
+
+		if (this.container) {
+			overlayConfig.container = document.querySelector(this.container);
+		}
+
+		overlayConfig.positionStrategy = this._createPositionStrategy();
+		return overlayConfig;
+	}
+
+	private _createPositionStrategy(): GlobalPositionStrategy {
+		const strategy = this._overlay.position()
+			.global()
+			.absolute()
+			.top('0px')
+			.left('0px');
+
+		return strategy;
+	}
+
+	private _attachOverlay() {
+
+		if (!this._overlayRef) {
+			this._createOverlay();
+			let object = document.querySelector(this.container);
+		}
+
+		if (!this._overlayRef.hasAttached()) {
+			this._overlay.updateContainer(this.container);
+			this._overlayRef.attach(this._templatePortal);
+		}
+
+
+	}
+
+	private _detachOverlay() {
+		if (this._overlayRef) {
+			this._overlayRef.detach();
+		}
+
+		if (this.sub) {
+			this.sub.unsubscribe();
+			this.sub = null;
+		}
+
+
+
+	}
+
+	/** Destroys the overlay created by this directive. */
+	private _destroyOverlay() {
+		if (this._overlayRef) {
+			this._overlayRef.dispose();
+		}
+
+		if (this.sub) {
+			this.sub.unsubscribe();
+			this.sub = null;
+		}
+
+
+	}
+}
+
 
 /** Default set of positions for the overlay. Follows the behavior of a dropdown. */
 let defaultPositionList = [
@@ -48,7 +201,6 @@ export class OverlayOrigin {
 		return this._elementRef;
 	}
 }
-
 
 
 /**
@@ -85,8 +237,11 @@ export class ConnectedOverlayDirective implements OnDestroy {
 	/** The custom class to be set on the backdrop element. */
 	@Input() backdropClass: string;
 
-	@Input() container: string;
+	@Input() container: any;
 
+	@Input() trigger: any;
+
+	sub: any;
 
 	/** Whether or not the overlay should attach a backdrop. */
 	@Input()
@@ -128,10 +283,10 @@ export class ConnectedOverlayDirective implements OnDestroy {
 				this.overlayRef.updatePosition();
 				this.overlayRef.updateSize();
 			}
-		})
-
-
+		});
 	}
+
+
 
 	get overlayRef(): OverlayRef {
 		return this._overlayRef;
@@ -151,8 +306,8 @@ export class ConnectedOverlayDirective implements OnDestroy {
 		if (!this.positions || !this.positions.length) {
 			this.positions = defaultPositionList;
 		}
-
 		this._overlayRef = this._overlay.create(this._buildConfig());
+
 	}
 
 	/** Builds the overlay config based on the directive's inputs */
@@ -168,6 +323,10 @@ export class ConnectedOverlayDirective implements OnDestroy {
 		}
 
 		overlayConfig.hasBackdrop = this.hasBackdrop;
+
+		if (this.trigger) {
+			overlayConfig.trigger = this.trigger;
+		}
 
 		if (this.backdropClass) {
 			overlayConfig.backdropClass = this.backdropClass;
@@ -231,8 +390,15 @@ export class ConnectedOverlayDirective implements OnDestroy {
 	private _attachOverlay() {
 		if (!this._overlayRef) {
 			this._createOverlay();
+			let object = document.querySelector(this.container);
+			this.sub = Observable.fromEvent(object, 'scroll').subscribe(() => {
+				this._overlayRef.updateState(this._getOriginSize());
+				this._overlayRef.updateSize();
+			})
 		}
+
 		if (!this._overlayRef.hasAttached()) {
+			this._overlay.updateContainer(this.container);
 			this._overlayRef.attach(this._templatePortal);
 		}
 
@@ -250,16 +416,28 @@ export class ConnectedOverlayDirective implements OnDestroy {
 			this._overlayRef.detach();
 		}
 
+		if (this.sub) {
+			this.sub.unsubscribe();
+			this.sub = null;
+		}
+
+
 		if (this._backdropSubscription) {
 			this._backdropSubscription.unsubscribe();
 			this._backdropSubscription = null;
 		}
+
 	}
 
 	/** Destroys the overlay created by this directive. */
 	private _destroyOverlay() {
 		if (this._overlayRef) {
 			this._overlayRef.dispose();
+		}
+
+		if (this.sub) {
+			this.sub.unsubscribe();
+			this.sub = null;
 		}
 
 		if (this._backdropSubscription) {
@@ -271,8 +449,8 @@ export class ConnectedOverlayDirective implements OnDestroy {
 
 @NgModule({
 	imports: [PortalModule],
-	exports: [ConnectedOverlayDirective, OverlayOrigin],
-	declarations: [ConnectedOverlayDirective, OverlayOrigin],
+	exports: [ConnectedOverlayDirective, OverlayOrigin, FullscreenOverlayDirective],
+	declarations: [ConnectedOverlayDirective, OverlayOrigin, FullscreenOverlayDirective],
 })
 export class OverlayModule {
 	static forRoot(): ModuleWithProviders {

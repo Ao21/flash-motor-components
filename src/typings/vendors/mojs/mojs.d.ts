@@ -153,66 +153,66 @@ declare module 'mo-js' {
          * {String}
          * [color name, rgb, rgba, hex]
          */
-        stroke?: string;
+        stroke?: string | any| any;
 
         /**
          *  Stroke Opacity.
          *  {Number}
          *  [ 0..1 ]
          */
-        strokeOpacity?: number;
+        strokeOpacity?: number| any;
 
         /**
          *  Stroke Line Cap.
          *  {String}
          *  ['butt' | 'round' | 'square']
          */
-        strokeLinecap?: string;
+        strokeLinecap?: string| any;
 
         /**
          *  Stroke Width.
          *  {Number}
          *  [ number ]
          */
-        strokeWidth?: number;
+        strokeWidth?: number| any;
 
         /**
          *  Stroke Dash Array.
          *  {String, Number}
          */
-        strokeDasharray?: string | number;
+        strokeDasharray?: string | number | {};
 
         /**
          *  Stroke Dash Offset.
          *  {String, Number}
          */
-        strokeDashoffset?: string | number;
+        strokeDashoffset?: string | number | {};
 
         /**
          *  Fill Color.
          *  {String}
          *  [color name, rgb, rgba, hex]
          */
-        fill?: string;
+        fill?: string | any | any;
 
         /**
          *  Fill Opacity.
          *  {Number}
          *  [ 0..1 ]
          */
-        fillOpacity?: number;
+        fillOpacity?: number| any;
 
         /**
          *  Left position of the module.
          *  {Number, String}
          */
-        left?: string | number;
+        left?: string | number| any;
 
         /**
          *  Top position of the module.
          *  {Number, String}
          */
-        top?: string | number;
+        top?: string | number| any;
 
         /**
          *  X shift.
@@ -254,7 +254,7 @@ declare module 'mo-js' {
          *  Origin for `x`, `y`, `scale`, `rotate` properties.
          *  {String}
          */
-        origin?: string;
+        origin?: string| any;
 
         /**
          *  Opacity.
@@ -285,7 +285,7 @@ declare module 'mo-js' {
          *  Radius of the shape.
          *  {Number, String}
          */
-        radius?: number | string;
+        radius?: number | string| any;
 
         /**
          *  Radius X of the shape (fallbacks to `radius`).
@@ -442,6 +442,9 @@ declare module 'mo-js' {
          *  Fires when the tween end's animation (regardless progress)
          */
         onPlaybackComplete?: () => any;
+
+        width?: any;
+        height?: any;
 
     }
 

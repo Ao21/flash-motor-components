@@ -5,6 +5,7 @@
 input {
 	width: 100%;
 	border: none;
+	background-color: transparent;
 	border-bottom: 1px solid $color-med-dark-grey;
 
 	&:focus {
@@ -18,11 +19,10 @@ span.highlight-item {
 
 .input-icon-status {
 	position: absolute;
-	right: 0;
-	width: 27px;
-	height: 27px;
-	margin: 0 1.5rem;
-	top: 30px;
+    right: 0;
+    width: 27px;
+    height: 27px;
+    top: -3px;
 
 	&--year {
 		top: -3px;

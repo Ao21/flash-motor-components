@@ -2,7 +2,7 @@
 export interface PositionStrategy {
 
   /** Updates the position of the overlay element. */
-  apply(element: Element): Promise<void>;
+  apply(element: Element, container: string): Promise<void>;
   setScrollContainer?(element: Element): void;
   updateScrollingPosition?(element: Element, x: number, y?: number): void;
 

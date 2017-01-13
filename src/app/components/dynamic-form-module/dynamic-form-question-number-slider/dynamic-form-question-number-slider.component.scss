@@ -12,6 +12,7 @@ $defaultHalfMargin: $defaultItemMargin / 2;
 .df-slider {
 	float: left;
 	width: 100%;
+	position: relative;
 	&__outer-container {
 		display: flex;
 		flex-flow: row;
@@ -64,9 +65,11 @@ $defaultHalfMargin: $defaultItemMargin / 2;
 		flex: 0 0 $defaultItemWidth;
 		display: flex;
 		justify-content: center;
+		border: none;
+		background-color: transparent;
 		img {
 			flex: 1 1 auto;
-			height: 16px;
+			height: 1rem;
 			align-self: center;
 		}
 	}

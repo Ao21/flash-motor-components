@@ -1,0 +1,114 @@
+//-------------------------------------
+// Claims List Styes
+//-------------------------------------
+.list--claims,
+.list--penalties {
+	margin-bottom: size(small);
+
+	.c-tile {
+		&__outer-container {
+			overflow: hidden;
+			margin-left: $timeline-width;
+			width: calc(100% - #{$timeline-width});
+			background-color: $color-light-grey;
+		}
+		&__content {
+			min-height: 4rem;
+		}
+		&__primary {
+			@include align-self(flex-start);
+
+			flex: 0 0 auto;
+			margin-top: size(small);
+			padding: 0 size(small) 0 size(medium);
+
+			p {
+				@include font-size(tiny);
+				@include font-weight(bold);
+
+				line-height: 1.5;
+			}
+		}
+		&__secondary {
+			@include align-self(flex-start);
+
+			flex: 1 1 auto;
+			margin-top: size(small);
+
+			p {
+				@include font-size(tiny);
+
+				line-height: 1.5;
+			}
+		}
+	}
+}
+
+.list--help {
+	.c-tile {
+		&__primary {
+			@include font-size(small);
+		}
+		&__secondary {
+			@include flex(0 0);
+		}
+	}
+}
+
+.list--address {
+	height: 100%;
+	background-color: white;
+
+	.text{
+		min-height: 5.5rem;
+		padding: size(small) size(small);
+		@include display(flex);
+		@include justify-content(center);
+		p{
+			@include align-self(center);
+			font-weight: bold;
+		}
+	}
+
+	.c-tile {
+		margin-bottom: 0;
+		&__content {
+			min-height: 5.5rem;
+			padding: size(small) size(small);
+			
+		}
+		&:nth-of-type(odd) {
+			background-color: $color-light-grey;
+		}
+		&__primary {
+			@include align-self(center);
+			@include font-size(tiny);
+		}
+		&__secondary {
+			@include flex(0 0 16px);
+			@include align-self(center);
+			position: relative;
+		}
+	}
+}
+
+.list--product {
+	@include display(flex);
+	@include flex-direction(column);
+	@include align-items(center);
+	padding: 0 size(medium);
+
+	.expanded {
+		margin-top: size(medium);
+	}
+}
+
+.list--aaBenefits {
+	@include display(flex);
+	@include flex-direction(column);
+	@include align-items(center);
+	padding: 0 0;
+	.expanded {
+			width: 100%;
+		}
+}

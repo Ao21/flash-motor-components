@@ -1,0 +1,15 @@
+//-------------------------------------
+// #SETTINGS-LAYOUT
+//-------------------------------------
+
+
+//
+// Holds the default grid settings
+//
+// These can be invoked later using the neat mixins
+//
+
+$single-grid: (
+  "columns": 1,
+  "gutter": $base-size,
+)

@@ -11,8 +11,10 @@
 //
 
 $breakpoints: (
-  "small"  : "screen and (max-width: #{rem(720px)})",
+  "small"  : "screen and (max-width: #{rem(576px)})",
+  "upToMedium"  : "screen and (max-width: #{rem(767px)})",
   "medium" : "screen and (min-width: #{rem(768px)})",
+  "upToLarge"  : "screen and (max-width: #{rem(1024px)})",
   "large"  : "screen and (min-width: #{rem(1025px)})",
   "wide"   : "screen and (min-width: #{rem(1441px)})"
 ) !default;

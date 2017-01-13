@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/Rx';
-import { URLCONSTS } from './../constants';
+import { environment } from './../../environments/environment';
+import { isJsObject } from '@angular/core/src/facade/lang';
 import * as Fuse from 'fuse.js';
 
 @Injectable()
@@ -48,7 +49,7 @@ export class AutocompleteControlService {
 	) {
 		if (this._serviceType === 'all') {
 			this.isLoadingOptions = true;
-			this.http.get(URLCONSTS.BASE_URL + this._serviceUrl + this.serviceType)
+			this.http.get(environment.urls.BASE_URL + this._serviceUrl + this.serviceType)
 				.map(res => res.json())
 				.subscribe((next) => {
 					this.isLoadingOptions = false;
@@ -63,21 +64,29 @@ export class AutocompleteControlService {
 			case 'all':
 				return this.all();
 			case 'search':
+			case 'linked':
 				return this.search(query);
 			default:
-				return this.filterList(query);
+				return this.filterList(query.query);
 		}
 	}
 
 	// TODO: Add Caching to All	
-	all() {
-		return this.http.get(URLCONSTS.BASE_URL + this._serviceUrl + this.serviceType).map(next => { return next.json(); });
+	all(): Observable<any> {
+		return this.http.get(environment.urls.BASE_URL + this._serviceUrl + this.serviceType);
 	}
 
 	search(query) {
 		let params = new URLSearchParams();
-		params.append('query', query);
-		return this.http.get(URLCONSTS.BASE_URL + this._serviceUrl + this.serviceType, { search: params }).map(next => { return next.json(); });
+		params.append('query', query.query);
+		if (query.link) {
+			let q = query.link.value;
+			if (isJsObject(query.link.value)) {
+				q = JSON.stringify(query.link.value);
+			}
+			params.append('link', q);
+		}
+		return this.http.get(environment.urls.BASE_URL + this._serviceUrl + this.serviceType, { search: params }).map(next => { return next.json(); });
 	}
 
 	dispose() {

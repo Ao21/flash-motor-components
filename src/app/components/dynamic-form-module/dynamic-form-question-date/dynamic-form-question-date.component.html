@@ -1,4 +1,4 @@
-<div [class.ng-complete]="isComplete" class="df-question-date-group" [formGroup]="dateForm">
+<div [inputIcon]="formControl" [class.ng-complete]="isComplete" class="df-question-date-group" [formGroup]="dateForm">
 	<input
 	#dayInput
 	(blur)="_onBlur()"
@@ -30,7 +30,6 @@
 	maxlength="4"
 	placeholder="YY"
 	formControlName="year"  
-	[inputIcon]="formControl"
 	type="tel">
 </div>
 

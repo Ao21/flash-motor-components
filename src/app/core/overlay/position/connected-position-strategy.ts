@@ -3,14 +3,16 @@ import { ElementRef } from '@angular/core';
 import { ViewportRuler } from './viewport-ruler';
 import { applyCssTransform } from '../../style/apply-transform';
 import {
-  ConnectionPositionPair,
-  OriginConnectionPosition,
-  OverlayConnectionPosition,
-  ConnectedOverlayPositionChange
+	ConnectionPositionPair,
+	OriginConnectionPosition,
+	OverlayConnectionPosition,
+	ConnectedOverlayPositionChange
 } from './connected-position';
 
-import {Subject} from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+
+import { coerceNumberProperty } from './../../coersion/number-property';
 
 /**
  * A strategy for positioning overlays. Using this strategy, an overlay is given an
@@ -20,147 +22,152 @@ import { Observable } from 'rxjs/Observable';
  * of the overlay.
  */
 export class ConnectedPositionStrategy implements PositionStrategy {
-  private _dir = 'ltr';
+	private _dir = 'ltr';
 
-  /** The offset in pixels for the overlay connection point on the x-axis */
-  private _offsetX: number = 0;
+	/** The offset in pixels for the overlay connection point on the x-axis */
+	private _offsetX: number = 0;
 
-  /** The offset in pixels for the overlay connection point on the y-axis */
-  private _offsetY: number = 0;
+	/** The offset in pixels for the overlay connection point on the y-axis */
+	private _offsetY: number = 0;
 
-  private previousX: number = 0;
-  private previousY: number = 0;
-
-
-  /** Whether the we're dealing with an RTL context */
-  get _isRtl() {
-    return this._dir === 'rtl';
-  }
-
-  /** Ordered list of preferred positions, from most to least desirable. */
-  _preferredPositions: ConnectionPositionPair[] = [];
-
-  /** The origin element against which the overlay will be positioned. */
-  private _origin: HTMLElement;
-
-  private _onPositionChange:
-  Subject<ConnectedOverlayPositionChange> = new Subject<ConnectedOverlayPositionChange>();
-
-  /** Emits an event when the connection point changes. */
-  get onPositionChange(): Observable<ConnectedOverlayPositionChange> {
-    return this._onPositionChange.asObservable();
-  }
-
-  private _scrollContainer: HTMLElement;
+	private previousX: number = 0;
+	private previousY: number = 0;
 
 
-  constructor(
-    private _connectedTo: ElementRef,
-    private _originPos: OriginConnectionPosition,
-    private _overlayPos: OverlayConnectionPosition,
-    private _viewportRuler: ViewportRuler) {
-    this._origin = this._connectedTo.nativeElement;
-    this.withFallbackPosition(_originPos, _overlayPos);
-  }
+	/** Whether the we're dealing with an RTL context */
+	get _isRtl() {
+		return this._dir === 'rtl';
+	}
 
-  get positions() {
-    return this._preferredPositions;
-  }
+	/** Ordered list of preferred positions, from most to least desirable. */
+	_preferredPositions: ConnectionPositionPair[] = [];
 
-  setScrollContainer(element) {
-    this._scrollContainer = element;
-  }
+	/** The origin element against which the overlay will be positioned. */
+	private _origin: HTMLElement;
+
+	private _onPositionChange:
+	Subject<ConnectedOverlayPositionChange> = new Subject<ConnectedOverlayPositionChange>();
+
+	/** Emits an event when the connection point changes. */
+	get onPositionChange(): Observable<ConnectedOverlayPositionChange> {
+		return this._onPositionChange.asObservable();
+	}
+
+	private _scrollContainer: HTMLElement;
+	private _containerName: string;
+	private _originElement: HTMLElement;
+
+
+	constructor(
+		private _connectedTo: ElementRef,
+		private _originPos: OriginConnectionPosition,
+		private _overlayPos: OverlayConnectionPosition,
+		private _viewportRuler: ViewportRuler) {
+		this._origin = this._connectedTo.nativeElement;
+		this.withFallbackPosition(_originPos, _overlayPos);
+	}
+
+	get positions() {
+		return this._preferredPositions;
+	}
+
+	setScrollContainer(element) {
+		this._scrollContainer = element;
+	}
 
   /**
    * Updates the position of the overlay element, using whichever preferred position relative
    * to the origin fits on-screen.
    * TODO: internal
    */
-  apply(element: HTMLElement): Promise<void> {
-    // We need the bounding rects for the origin and the overlay to determine how to position
-    // the overlay relative to the origin.
-    const originRect = this._origin.getBoundingClientRect();
-    const overlayRect = element.getBoundingClientRect();
+	apply(element: HTMLElement, container: string): Promise<void> {
+		// We need the bounding rects for the origin and the overlay to determine how to position
+		// the overlay relative to the origin.
+		const originRect = this._origin.getBoundingClientRect();
+		const overlayRect = element.getBoundingClientRect();
 
-    // We use the viewport rect to determine whether a position would go off-screen.
-    const viewportRect = this._viewportRuler.getViewportRect();
-    let firstOverlayPoint: Point = null;
-    
-    // We want to place the overlay in the first of the preferred positions such that the
-    // overlay fits on-screen.
-    for (let pos of this._preferredPositions) {
-      // Get the (x, y) point of connection on the origin, and then use that to get the
-      // (top, left) coordinate for the overlay at `pos`.
-      let originPoint = this._getOriginConnectionPoint(originRect, pos);
-      let overlayPoint = this._getOverlayPoint(originPoint, overlayRect, pos);
-      firstOverlayPoint = firstOverlayPoint || overlayPoint;
+		this._containerName = container;
 
-      // If the overlay in the calculated position fits on-screen, put it there and we're done.
-      if (this._willOverlayFitWithinViewport(overlayPoint, overlayRect, viewportRect)) {
-        this._setElementPosition(element, overlayPoint);
-        this._onPositionChange.next(new ConnectedOverlayPositionChange(pos));
-        return Promise.resolve(null);
-      }
-    }
+		// We use the viewport rect to determine whether a position would go off-screen.
+		const viewportRect = this._viewportRuler.getViewportRect();
+		let firstOverlayPoint: Point = null;
 
-    // TODO(jelbourn): fallback behavior for when none of the preferred positions fit on-screen.
-    // For now, just stick it in the first position and let it go off-screen.
-    this._setElementPosition(element, firstOverlayPoint);
-    return Promise.resolve(null);
-  }
+		// We want to place the overlay in the first of the preferred positions such that the
+		// overlay fits on-screen.
+		for (let pos of this._preferredPositions) {
+			// Get the (x, y) point of connection on the origin, and then use that to get the
+			// (top, left) coordinate for the overlay at `pos`.
+			let originPoint = this._getOriginConnectionPoint(originRect, pos);
+			let overlayPoint = this._getOverlayPoint(originPoint, overlayRect, pos);
+			firstOverlayPoint = firstOverlayPoint || overlayPoint;
+
+			// If the overlay in the calculated position fits on-screen, put it there and we're done.
+			if (this._willOverlayFitWithinViewport(overlayPoint, overlayRect, viewportRect)) {
+				this._setElementPosition(element, overlayPoint);
+				this._onPositionChange.next(new ConnectedOverlayPositionChange(pos));
+				return Promise.resolve(null);
+			}
+		}
 
 
-  updateScrollingPosition(element, x, y) {
-    x = x + this.previousX;
-    y = y + this.previousY;
-    applyCssTransform(element, `translateX(${this.previousX}px) translateY(${this.previousY}px)`);
-  }
+		// TODO(jelbourn): fallback behavior for when none of the preferred positions fit on-screen.
+		// For now, just stick it in the first position and let it go off-screen.
+		this._setElementPosition(element, firstOverlayPoint);
+		return Promise.resolve(null);
+	}
 
-  withFallbackPosition(
-    originPos: OriginConnectionPosition,
-    overlayPos: OverlayConnectionPosition): this {
-    this._preferredPositions.push(new ConnectionPositionPair(originPos, overlayPos));
-    return this;
-  }
 
-  withDirection(dir: 'ltr' | 'rtl'): this {
-    this._dir = dir;
-    return this;
-  }
+	updateScrollingPosition(element, x, y) {
+		x = x + this.previousX;
+		y = y + this.previousY;
+		applyCssTransform(element, `translateX(${this.previousX}px) translateY(${this.previousY}px)`);
+	}
 
-  /** Sets an offset for the overlay's connection point on the x-axis */
-  withOffsetX(offset: number): this {
-    this._offsetX = offset;
-    return this;
-  }
+	withFallbackPosition(
+		originPos: OriginConnectionPosition,
+		overlayPos: OverlayConnectionPosition): this {
+		this._preferredPositions.push(new ConnectionPositionPair(originPos, overlayPos));
+		return this;
+	}
 
-  /** Sets an offset for the overlay's connection point on the y-axis */
-  withOffsetY(offset: number): this {
-    this._offsetY = offset;
-    return this;
-  }
+	withDirection(dir: 'ltr' | 'rtl'): this {
+		this._dir = dir;
+		return this;
+	}
 
-  /** Sets the layout direction so the overlay's position can be adjusted to match. */
-  setDirection(dir: 'ltr' | 'rtl') {
-    this._dir = dir;
-    return this;
-  }
+	/** Sets an offset for the overlay's connection point on the x-axis */
+	withOffsetX(offset: number): this {
+		this._offsetX = coerceNumberProperty(offset);
+		return this;
+	}
+
+	/** Sets an offset for the overlay's connection point on the y-axis */
+	withOffsetY(offset: number): this {
+		this._offsetY = coerceNumberProperty(offset);
+		return this;
+	}
+
+	/** Sets the layout direction so the overlay's position can be adjusted to match. */
+	setDirection(dir: 'ltr' | 'rtl') {
+		this._dir = dir;
+		return this;
+	}
 
   /**
    * Gets the horizontal (x) "start" dimension based on whether the overlay is in an RTL context.
    * @param rect
    */
-  private _getStartX(rect: ClientRect): number {
-    return this._isRtl ? rect.right : rect.left;
-  }
+	private _getStartX(rect: ClientRect): number {
+		return this._isRtl ? rect.right : rect.left;
+	}
 
   /**
    * Gets the horizontal (x) "end" dimension based on whether the overlay is in an RTL context.
    * @param rect
    */
-  private _getEndX(rect: ClientRect): number {
-    return this._isRtl ? rect.left : rect.right;
-  }
+	private _getEndX(rect: ClientRect): number {
+		return this._isRtl ? rect.left : rect.right;
+	}
 
 
   /**
@@ -168,26 +175,26 @@ export class ConnectedPositionStrategy implements PositionStrategy {
    * @param originRect
    * @param pos
    */
-  private _getOriginConnectionPoint(originRect: ClientRect, pos: ConnectionPositionPair): Point {
-    const originStartX = this._getStartX(originRect);
-    const originEndX = this._getEndX(originRect);
+	private _getOriginConnectionPoint(originRect: ClientRect, pos: ConnectionPositionPair): Point {
+		const originStartX = this._getStartX(originRect);
+		const originEndX = this._getEndX(originRect);
 
-    let x: number;
-    if (pos.originX == 'center') {
-      x = originStartX + (originRect.width / 2);
-    } else {
-      x = pos.originX == 'start' ? originStartX : originEndX;
-    }
+		let x: number;
+		if (pos.originX == 'center') {
+			x = originStartX + (originRect.width / 2);
+		} else {
+			x = pos.originX == 'start' ? originStartX : originEndX;
+		}
 
-    let y: number;
-    if (pos.originY == 'center') {
-      y = originRect.top + (originRect.height / 2);
-    } else {
-      y = pos.originY == 'top' ? originRect.top : originRect.bottom;
-    }
+		let y: number;
+		if (pos.originY == 'center') {
+			y = originRect.top + (originRect.height / 2);
+		} else {
+			y = pos.originY == 'top' ? originRect.top : originRect.bottom;
+		}
 
-    return { x, y };
-  }
+		return { x, y };
+	}
 
 
   /**
@@ -197,33 +204,33 @@ export class ConnectedPositionStrategy implements PositionStrategy {
    * @param overlayRect
    * @param pos
    */
-  private _getOverlayPoint(
-    originPoint: Point,
-    overlayRect: ClientRect,
-    pos: ConnectionPositionPair): Point {
-    // Calculate the (overlayStartX, overlayStartY), the start of the potential overlay position
-    // relative to the origin point.
-    let overlayStartX: number;
-    if (pos.overlayX == 'center') {
-      overlayStartX = -overlayRect.width / 2;
-    } else if (pos.overlayX === 'start') {
-      overlayStartX = this._isRtl ? -overlayRect.width : 0;
-    } else {
-      overlayStartX = this._isRtl ? 0 : -overlayRect.width;
-    }
+	private _getOverlayPoint(
+		originPoint: Point,
+		overlayRect: ClientRect,
+		pos: ConnectionPositionPair): Point {
+		// Calculate the (overlayStartX, overlayStartY), the start of the potential overlay position
+		// relative to the origin point.
+		let overlayStartX: number;
+		if (pos.overlayX == 'center') {
+			overlayStartX = -overlayRect.width / 2;
+		} else if (pos.overlayX === 'start') {
+			overlayStartX = this._isRtl ? -overlayRect.width : 0;
+		} else {
+			overlayStartX = this._isRtl ? 0 : -overlayRect.width;
+		}
 
-    let overlayStartY: number;
-    if (pos.overlayY == 'center') {
-      overlayStartY = -overlayRect.height / 2;
-    } else {
-      overlayStartY = pos.overlayY == 'top' ? 0 : -overlayRect.height;
-    }
+		let overlayStartY: number;
+		if (pos.overlayY == 'center') {
+			overlayStartY = -overlayRect.height / 2;
+		} else {
+			overlayStartY = pos.overlayY == 'top' ? 0 : -overlayRect.height;
+		}
 
-    return {
-      x: originPoint.x + overlayStartX,
-      y: originPoint.y + overlayStartY
-    };
-  }
+		return {
+			x: originPoint.x + overlayStartX,
+			y: originPoint.y + overlayStartY
+		};
+	}
 
 
 
@@ -233,17 +240,17 @@ export class ConnectedPositionStrategy implements PositionStrategy {
    * @param overlayRect Bounding rect of the overlay, used to get its size.
    * @param viewportRect The bounding viewport.
    */
-  private _willOverlayFitWithinViewport(
-    overlayPoint: Point,
-    overlayRect: ClientRect,
-    viewportRect: ClientRect): boolean {
+	private _willOverlayFitWithinViewport(
+		overlayPoint: Point,
+		overlayRect: ClientRect,
+		viewportRect: ClientRect): boolean {
 
-    // TODO(jelbourn): probably also want some space between overlay edge and viewport edge.
-    return overlayPoint.x >= viewportRect.left &&
-      overlayPoint.x + overlayRect.width <= viewportRect.right &&
-      overlayPoint.y >= viewportRect.top &&
-      overlayPoint.y + overlayRect.height <= viewportRect.bottom;
-  }
+		// TODO(jelbourn): probably also want some space between overlay edge and viewport edge.
+		return overlayPoint.x >= viewportRect.left &&
+			overlayPoint.x + overlayRect.width <= viewportRect.right &&
+			overlayPoint.y >= viewportRect.top &&
+			overlayPoint.y + overlayRect.height <= viewportRect.bottom;
+	}
 
 
   /**
@@ -251,25 +258,26 @@ export class ConnectedPositionStrategy implements PositionStrategy {
    * @param element
    * @param overlayPoint
    */
-  private _setElementPosition(element: HTMLElement, overlayPoint: Point) {
-    let scrollPos;
-    if (this._scrollContainer) {
-      scrollPos = this._viewportRuler.getContainerScrollPosition(this._scrollContainer);
-    } else {
-      scrollPos = this._viewportRuler.getViewportScrollPosition();
-    }
+	private _setElementPosition(element: HTMLElement, overlayPoint: Point) {
+		let scrollPos;
+		if (this._scrollContainer) {
+			scrollPos = this._viewportRuler.getContainerScrollPosition(this._scrollContainer);
+		} else {
+			scrollPos = this._viewportRuler.getViewportScrollPosition();
+		}
+
+		let xOffset = this._viewportRuler.getOffsetsUntillParent(this._origin, this._scrollContainer, 0);
+		let x = xOffset;
+		let y = overlayPoint.y + scrollPos.top + this._offsetY;
+
+		this.previousX = x;
+		this.previousY = y;
 
 
-    let x = overlayPoint.x + scrollPos.left;
-    let y = overlayPoint.y + scrollPos.top;
-
-    this.previousX = x;
-    this.previousY = y;
-
-    // TODO(jelbourn): we don't want to always overwrite the transform property here,
-    // because it will need to be used for animations.
-    applyCssTransform(element, `translateX(${x}px) translateY(${y}px)`);
-  }
+		// TODO(jelbourn): we don't want to always overwrite the transform property here,
+		// because it will need to be used for animations.
+		applyCssTransform(element, `translateX(${x}px) translateY(${y}px)`);
+	}
 }
 
 

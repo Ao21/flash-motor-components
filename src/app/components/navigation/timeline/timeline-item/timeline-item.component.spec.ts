@@ -4,24 +4,24 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { Shape } from 'mo-js';
 
-import { DynamicFormTimelineItemComponent } from './dynamic-form-timeline-item.component';
-import { MojsInit } from './../../mojs/mojs-init';
+import { TimelineItemComponent } from './timeline-item.component';
+import { MojsInit } from './../../../mojs/mojs-init';
 
 
-describe('DynamicFormTimelineItemComponent', () => {
-	let component: DynamicFormTimelineItemComponent;
-	let fixture: ComponentFixture<DynamicFormTimelineItemComponent>;
+describe('TimelineItemComponent', () => {
+	let component: TimelineItemComponent;
+	let fixture: ComponentFixture<TimelineItemComponent>;
 	let mojsInit = new MojsInit();
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [DynamicFormTimelineItemComponent]
+			declarations: [TimelineItemComponent]
 		})
 			.compileComponents();
 	}));
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(DynamicFormTimelineItemComponent);
+		fixture = TestBed.createComponent(TimelineItemComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

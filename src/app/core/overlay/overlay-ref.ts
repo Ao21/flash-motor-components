@@ -63,7 +63,7 @@ export class OverlayRef implements PortalHost {
 	/** Updates the position of the overlay based on the position strategy. */
 	updatePosition() {
 		if (this._state.positionStrategy) {
-			this._state.positionStrategy.apply(this._pane);
+			this._state.positionStrategy.apply(this._pane, this._state.container);
 		}
 	}
 
@@ -80,6 +80,11 @@ export class OverlayRef implements PortalHost {
 
 		if (this._state.height || this._state.height === 0) {
 			this._pane.style.height = formatCssUnit(this._state.height);
+		}
+
+		if (this._state.trigger) {
+			let client = this._state.trigger.getBoundingClientRect();
+			this._pane.style.width = formatCssUnit(client.width);
 		}
 	}
 

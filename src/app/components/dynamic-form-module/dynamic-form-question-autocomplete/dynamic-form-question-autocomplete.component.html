@@ -30,10 +30,11 @@
 	#overlay
 	[origin]="origin" 
 	[open]="panelOpen" 
-	container=".main"
 	(positionChange)="_updateTransformOrigin($event)"
+	container=".main"
 	[positions]="_positions" 
-	[width]="_getWidth()">
+	offsetY="0"
+	[trigger]="trigger">
 		<div class="mf-select-panel"
 			[@transformPanel]="_getPanelState()"
 			(@transformPanel.done)="_onPanelDone()">

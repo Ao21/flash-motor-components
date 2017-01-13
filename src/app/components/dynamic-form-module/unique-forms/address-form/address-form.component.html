@@ -1,0 +1,36 @@
+<form *ngIf="form" [formGroup]="form">
+	<div *ngFor="let question of questions, let ind = index, trackBy:trackFn" class="form-row">
+		<df-question [index]="ind" [question]="question" [form]="form"></df-question>
+	</div>
+</form>
+
+<section class="c-section__content">
+	<div *ngIf="selectedAddress && addressIsSet" class="selected-address">
+		<label for="">Matched Address</label>
+		<button (click)="open()" class="c-button c-button--outline c-button--expand c-button--image">
+			<span class="c-button--span-text">{{selectedAddress.address}}</span>
+			<span class="c-button--span-img"><img src="assets/icons/icon-forms-pencil.svg" alt=""></span>
+		</button>
+	</div>
+	<button *ngIf="addressServiceFinished && !addressIsSet" (click)="open()" class="c-button c-button--outline c-button--expand">Confirm Address</button>
+</section>
+
+<template 
+	fullscreen-overlay
+	delay=330
+	container="stage-manager"
+	[open]="addressOpen">
+	<list
+		[@fullscreenSlideUp] 
+		class="list--address" 
+		name="Address List">
+		<div class="text">
+			<p>Please match your address to one of our records below</p>
+		</div>
+		 <c-tile (click)="selectAddress(item.id)" *ngFor="let item of addressItems" noControls="true" noTimeline="true">
+			 <div primary>{{item.address}}</div>
+			 <div secondary [tickIcon]="item.id === selectedItemId">
+			</div>
+		 </c-tile>
+	</list>
+</template>
