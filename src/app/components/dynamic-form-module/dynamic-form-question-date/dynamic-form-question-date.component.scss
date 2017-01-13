@@ -1,7 +1,8 @@
 @import "./../../../../styles/settings/colours";
-@import "./../../../../styles/objects/flex";
 @import "./../../../../styles/settings/globals";
+@import "./../../../../styles/settings/responsive";
 @import './../../../../styles/tools/functions';
+@import "./../../../../styles/tools/responsive";
 :host,
 df-date {
 	width: 100%;
@@ -12,15 +13,19 @@ df-date {
 		}
 	}
 	&>div {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: space-around;
-		align-items: stretch;
+		@include display(flex);
+		@include flex-flow(row nowrap);
+		@include justify-content(row nowrap);
+		@include align-items(stretch);
 		float: left;
 		width: 100%;
 	}
 	input {
-		flex: 1 1 130px;
+		@include flex(1 1 130px)
+		@include mq(upToLarge){
+			@include flex(1 1 auto);
+			width: 50px;
+		}
 		margin: 0 size(tiny);
 		&:first-child {
 			margin-left: 0;
