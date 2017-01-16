@@ -25,4 +25,5 @@ export class SetPaymentFrequency implements Action {
 export type Actions
 	= CreateQuoteAction
 	| SetActiveProduct
-	| SetPaymentFrequency
+	| SetPaymentFrequency;
+

@@ -32,4 +32,4 @@ export class UpdatePageAction implements Action {
 export type Actions
 	= SelectPagesAction
 	| LoadPagesAction
-	| UpdatePageAction
+	| UpdatePageAction;

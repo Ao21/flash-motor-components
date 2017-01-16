@@ -38,7 +38,7 @@ export class SavePenaltyAction implements Action {
 
 export class LoadQuestionsAction implements Action {
 	type = ActionTypes.LOAD;
-	constructor() { };
+	constructor(public payload?: any) { };
 }
 
 export class UpdateFieldValue implements Action {
@@ -53,6 +53,7 @@ export type Actions
 	| AddQuestionAction
 	| AddQuestionsAction
 	| SaveClaimsAction
-	| SavePenaltyAction
+	| SavePenaltyAction;
+
 
 

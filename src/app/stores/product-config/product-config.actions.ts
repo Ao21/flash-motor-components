@@ -13,7 +13,7 @@ export const ActionTypes = {
 
 export class LoadProductConfigAction implements Action {
 	type = ActionTypes.LOAD;
-	constructor() { };
+	constructor(public payload?: any) { };
 }
 
 export class LoadProductConfigSuccessAction implements Action {
@@ -31,4 +31,5 @@ export class LoadingProductConfigFailureAction implements Action {
 export type Actions
 	= LoadProductConfigAction
 	| LoadProductConfigSuccessAction
-	| LoadingProductConfigFailureAction
+	| LoadingProductConfigFailureAction;
+

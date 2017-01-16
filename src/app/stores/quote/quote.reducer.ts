@@ -16,8 +16,9 @@ const initialState: State = {
 export function reducer(state = initialState, action: quote.Actions): State {
 	switch (action.type) {
 		case quote.ActionTypes.CREATE_QUOTE:
+			let q: any = action.payload;
 			return {
-				quote: action.payload,
+				quote: q,
 			};
 		case quote.ActionTypes.SET_ACTIVE_PRODUCT:
 			let newQuote = _.assign({}, state.quote, {

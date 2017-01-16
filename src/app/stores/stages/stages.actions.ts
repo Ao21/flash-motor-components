@@ -41,7 +41,7 @@ export class SetSectionActiveAction implements Action {
 
 export class SetNextSectionActive implements Action {
 	type = ActionTypes.SET_NEXT_STAGE_ACTIVE;
-	constructor() { };
+	constructor(public payload?: any) { };
 }
 
 

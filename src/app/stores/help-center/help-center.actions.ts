@@ -11,7 +11,7 @@ export const ActionTypes = {
 
 export class ClearHelpTopicAction implements Action {
 	type = ActionTypes.CLEAR;
-	constructor() { }
+	constructor(public payload: any) { }
 }
 
 export class SelectHelpTopicAction implements Action {
